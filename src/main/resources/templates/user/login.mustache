@@ -1,0 +1,13 @@
+{{> /common/header}}
+	<form method="post">
+		{{#error}}
+			<div class="alert alert-danger" role="alert">
+				로그인에 실패하였습니다.(아이디 혹은 비밀번호가 일치하지 않습니다.)
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{{/error}}
+		<input type="text" name="loginId" placeholder="아아디" required="required"/>
+		<input type="password" name="loginPass" placeholder="비밀번호" required="required"/>
+		<button type="submit" class="btn btn-outline-primary">로그인</button>
+	</form>
+{{> /common/footer}}
