@@ -48,7 +48,7 @@ public class MoimService {
 	
 	//모임 전체글 페이징처리
 	
-	@Transactional(readOnly = true)
+	
 	public List<Moim> findAllMoim(int page){
 		PageRequest pageRequest = PageRequest.of(page-1, 12, Sort.by(Direction.ASC, "targetDate"));
 		
@@ -61,7 +61,7 @@ public class MoimService {
 		long totalPage = moimRepository.count();
 		
 		List<String> pages = new ArrayList<>();
-		for(int i = 1; i <= totalPage/12 + (totalPage% 12> 0 ? 1: 0); i++) {
+		for(int i = 1; i <= totalPage/10 + (totalPage% 10 > 0 ? 1: 0); i++) {
 			pages.add(String.valueOf(i));
 			
 		}

@@ -16,14 +16,9 @@ public class UserService {
 
 	@Autowired
 	UserRepository userRepository;
-	
-	
+
 	@Autowired
 	UserDetailRepository userDetailRepository;
-	
-	
-	
-
 
 	// 회원 가입을 처리할 서비스 메서드
 	public boolean create(User user) {
@@ -51,49 +46,47 @@ public class UserService {
 
 	}
 
-	//회원 상세정보를 수정/변경 처리할 서비스 메서드
+	// 회원 상세정보를 수정/변경 처리할 서비스 메서드
 	public boolean modifySpecifiUserDetail(String userId, UserDetail detail) {
-		//1. 특정 유저가 존재하는지 확인
-		if(userRepository.findById(userId).isEmpty()) 
+		// 1. 특정 유저가 존재하는지 확인
+		if (userRepository.findById(userId).isEmpty())
 			return false;
-		
-		//2.UserDetail 저장하고
+
+		// 2.UserDetail 저장하고
 		User foundUser = userRepository.findById(userId).get();
-		if(foundUser.getUserDetail() != null)
+		if (foundUser.getUserDetail() != null)
 			detail.setIdx(foundUser.getUserDetail().getIdx());
-		
+
 		UserDetail saved = userDetailRepository.save(detail);
-		//3. 특정 유저의 detail_idx에 방금 저장하며 부여받은 id 값을 설정해서 update
+		// 3. 특정 유저의 detail_idx에 방금 저장하며 부여받은 id 값을 설정해서 update
 		foundUser.setUserDetail(saved);
 		userRepository.save(foundUser);
-		
+
 		return true;
-		
+
 	}
 
-
 	public UserDetail findSpecifiSavedDetail(String logonId) {
-		
+
 //		UserDetail userDetail = userRepository.findById(logonId).get().getUserDetail().getIdx();
 //		if(userDtail==null){
 //			return null;
 //		}
 //		return userDetailRepository.findById(userDetail.getIdx()).orElse(null);
-		
+
 		return userRepository.findById(logonId).get().getUserDetail();
 	}
-	
-	
+
 	@Transactional
 	public boolean removeToUser(String logonId) {
 
-		if(userRepository.findById(logonId).isPresent()) {
+		if (userRepository.findById(logonId).isPresent()) {
 			return false;
 		}
-		
+
 		User found = userRepository.findById(logonId).get();
 		UserDetail userDetail = found.getUserDetail();
-		
+
 		userRepository.delete(found);
 		userDetailRepository.delete(found.getUserDetail());
 		return true;
