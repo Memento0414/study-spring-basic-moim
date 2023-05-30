@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.edupoll.model.entity.Moim;
+import org.edupoll.model.entity.User;
 import org.edupoll.repository.MoimRepository;
+import org.edupoll.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,22 +20,28 @@ public class MoimService {
 	@Autowired
 	MoimRepository moimRepository;
 	
+	@Autowired
+	UserRepository userRepository;
+	
 	//모임 생성
 	public String createMoim(Moim moim, String logonId) {
+		User found= userRepository.findById(logonId).get();// 로그온 상태라면 무조건 있는 데이터
+			/*
+			 * User user = new User();
+			 * user.setId(logonId);
+			 * user.setManager(user);
+			 * */
 			moim.setCurrentPerson(1);
-			moim.setManagerId(logonId);
+			moim.setManager(found);
 			Moim saved = moimRepository.save(moim);
 			
 			return saved.getId();
 	}
 	
-	//모임 찾기
+	//특정 Id의 모임정보 불러오기용 서비스 메서드
 	public Moim findMoim(String logonId){
-		
-		Moim found = moimRepository.findById(logonId).orElse(null);
-		
-		
-		return found;
+
+		return  moimRepository.findById(logonId).orElse(null);
 	}
 	
 	//모임 전체글 페이징처리
@@ -57,4 +65,7 @@ public class MoimService {
 		}
 		return pages;
 	}
+	
+	
+	
 }

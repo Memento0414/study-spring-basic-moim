@@ -51,10 +51,15 @@ public class MoimController {
 		List<String> pages = moimService.MoimPaggingCount(page);
 		model.addAttribute("pages" ,pages);
 		
-		
-		
 		return "moim/list";
 		
 	}
 	
+	@GetMapping("/moim/view")
+	public String showMoimDetail(String id, Model model) {
+		
+		model.addAttribute("moim", moimService.findMoim(id));
+		
+		return "moim/view";
+	}
 }

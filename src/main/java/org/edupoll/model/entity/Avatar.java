@@ -15,22 +15,6 @@ public class Avatar {
 	String url;
 	
 	
-	
-	public Avatar() {
-		super();
-	}
-
-
-
-	public Avatar(String id, String description, String url) {
-		super();
-		this.id = id;
-		this.description = description;
-		this.url = url;
-	}
-
-
-
 	public String getId() {
 		return id;
 	}
@@ -67,5 +51,9 @@ public class Avatar {
 	
 
 	
+	@Override
+	public String toString() {
+		return "Avatar [id=" + id + ", description=" + description + ", url=" + url + "]";
+	}
 	
 }

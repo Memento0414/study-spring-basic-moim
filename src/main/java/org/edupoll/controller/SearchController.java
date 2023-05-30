@@ -33,22 +33,34 @@ public class SearchController {
 //		return "search";
 //	}
 	
+//	@GetMapping("/search")
+//	public String goToSearch() {
+//		
+//		return "search/form";
+//	}
+	
 	
 	@GetMapping("/search")
 	public String ShowSearchHandle(@RequestParam(required = false)String keyword, @RequestParam(defaultValue = "1")int page, Model model) {
+			
+			if(keyword == null) {
+				
+				return "/search/form";
+			}
 		
-		if(keyword == null) {
-
-			return "redirect : /";
-		} else {
 			List<User> findUser = searchService.findAllUser(keyword, page);
 			model.addAttribute("findUser",findUser);
+			model.addAttribute("keyword", keyword);
 			
 			List<String> pages = searchService.findAllUserPagging(page);
 			model.addAttribute("pages", pages);
 			
-			return "search";
-		}
+			model.addAttribute("next", page +1);
+			
+			return "search/result";
+		
 	}
+	
+	
 	
 }
