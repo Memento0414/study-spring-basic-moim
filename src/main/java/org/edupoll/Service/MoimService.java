@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Service
 public class MoimService {
@@ -27,13 +29,10 @@ public class MoimService {
 			return saved.getId();
 	}
 	
-	//모임 찾기
+	//특정 Id의 모임정보 불러오기용 서비스 메서드
 	public Moim findMoim(String logonId){
-		
-		Moim found = moimRepository.findById(logonId).orElse(null);
-		
-		
-		return found;
+
+		return  moimRepository.findById(logonId).orElse(null);
 	}
 	
 	//모임 전체글 페이징처리
@@ -57,4 +56,5 @@ public class MoimService {
 		}
 		return pages;
 	}
+	
 }
