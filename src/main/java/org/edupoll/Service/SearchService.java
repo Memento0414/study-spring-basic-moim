@@ -36,7 +36,7 @@ public class SearchService {
 	public List<User> findAllUser (String keyword, int page) {
 		
 		List<User> findUser = userRepository.findByIdContainingOrNickContainingAllIgnoreCase
-				(keyword, keyword, PageRequest.of(page-1, 10, Sort.by(Direction.ASC, "id")));
+				(keyword, keyword, PageRequest.of(page-1, 12, Sort.by(Direction.ASC, "id")));
 		
 		return findUser;
 		

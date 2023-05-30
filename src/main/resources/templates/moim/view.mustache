@@ -1,17 +1,21 @@
 {{> /common/header }}
 {{> /common/navi-bar}}
 
-{{#moim}}
-	{{title}}({{targetDate}})
-	
-	{{description}}
-	{{currentPerson}} / {{maxPerson}}
+{{#moim }}
+<div class="p-2 mb-2 bg-light rounded-3">
+	<div class="container-fluid py-2">
+		<p class="fs-5 text-warning" >@{{manager.nick }} 님의 모임</p>
+		<h1 class="fw-bold">{{title}} <small class="fs-6 text-secondary">{{cate}}</small></h1>
+		<p class="fs-4">{{description }}</p>
+		<p class="text-end text-black-80 fs-smaller">
+			모임 예정일	: {{targetDate }} ({{duration}}h)
+		</p>
+		
+	</div>
+</div>
+{{/moim }}
 
-{{/moim}}
-
-
-
-
-
+<div class="flex-wrap row px-1"></div>
+<a href="/moim/reply">댓글등록</a>
 
 {{ > /common/footer }}

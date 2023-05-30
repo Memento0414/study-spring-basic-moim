@@ -59,12 +59,12 @@ public class UserService {
 		
 		//2.UserDetail 저장하고
 		User foundUser = userRepository.findById(userId).get();
-		if(foundUser.getUserDetailIdx() != null)
-			detail.setIdx(foundUser.getUserDetailIdx());
+		if(foundUser.getUserDetail() != null)
+			detail.setIdx(foundUser.getUserDetail().getIdx());
 		
 		UserDetail saved = userDetailRepository.save(detail);
 		//3. 특정 유저의 detail_idx에 방금 저장하며 부여받은 id 값을 설정해서 update
-		foundUser.setUserDetailIdx(saved.getIdx());
+		foundUser.setUserDetail(saved);
 		userRepository.save(foundUser);
 		
 		return true;
@@ -73,30 +73,30 @@ public class UserService {
 
 
 	public UserDetail findSpecifiSavedDetail(String logonId) {
-		//logonId로 유저 정보 찾아서 그 유저의 detail_idx 찾아서
-		Integer detailIdx = userRepository.findById(logonId).get().getUserDetailIdx();
-		if(detailIdx == null)
-			return null;
-
-		// 유저 상세 정보 찾아서 리턴
-		return userDetailRepository.findById(detailIdx).orElse(null);
 		
+//		UserDetail userDetail = userRepository.findById(logonId).get().getUserDetail().getIdx();
+//		if(userDtail==null){
+//			return null;
+//		}
+//		return userDetailRepository.findById(userDetail.getIdx()).orElse(null);
+		
+		return userRepository.findById(logonId).get().getUserDetail();
 	}
+	
 	
 	@Transactional
 	public boolean removeToUser(String logonId) {
 
-		User found = userRepository.findById(logonId).get();
-		
-		if(found.getUserDetailIdx() != null) {
-			userRepository.deleteById(logonId);
-			userDetailRepository.deleteById(found.getUserDetailIdx());
-			return true;
-			
-		} else {
-			
+		if(userRepository.findById(logonId).isPresent()) {
 			return false;
 		}
+		
+		User found = userRepository.findById(logonId).get();
+		UserDetail userDetail = found.getUserDetail();
+		
+		userRepository.delete(found);
+		userDetailRepository.delete(found.getUserDetail());
+		return true;
 
 	}
 

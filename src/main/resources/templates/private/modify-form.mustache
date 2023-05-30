@@ -6,15 +6,26 @@
 		<hr/>
 	</div>
 	<form method="post" action="/private/modify" class="form-control">
+		<div class="mb-1 text-center">
+			{{#savedDetail.avatar }}
+			<img src="{{url}}" style="max-width: 50%"
+				class="rounded img-thumbnail" alt="...">
+			{{/savedDetail.avatar }}
+			{{^savedDetail.avatar }}
+			<img src="" style="max-width: 50%"
+				class="rounded img-thumbnail" alt="...">
+			{{/savedDetail.avatar }} 
+		</div>
+		
 		 <div class="input-group mb-3">
 		 	<span class="input-group-text" id="inputGroup-sizing-default">아바타 아이디</span>
-			 <input type="text" name="avatarId" placeholder="아바타 아이디" value="{{#savedDetail.avatarId}} {{.}} {{/savedDetail.avatarId}}" 
-			 		class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+			 <input type="radio" name="avatar.Id" placeholder="아바타 아이디" value="{{#savedDetail.avatar}} {{.}} {{/savedDetail.avatar}}" 
+			 		class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">		
 		 </div>
 		 <div class="form-floating">
-			<textarea name="description" class="form-control" id="floatingTextarea2" style="height: 100px">
+			<textarea name="description" class="form-control" id="floatingTextarea2" style="height: 100px;"placeholder="자기소개">
 					  {{#savedDetail.description}} {{.}} {{/savedDetail.description}}</textarea>
-			<label for="floatingTextarea2"></label>
+			<label for="floatingTextarea2">자기소개</label>
 		 </div>
 		 <div class="form-floating"> 
 			<input type="text" name="address" value="{{#savedDetail.address}} {{.}} {{/savedDetail.address}}" class="form-control" id="floatingInput" placeholder="주소">
