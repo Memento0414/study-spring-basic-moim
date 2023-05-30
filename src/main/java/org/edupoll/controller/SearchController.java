@@ -33,14 +33,14 @@ public class SearchController {
 //		return "search";
 //	}
 	
-//	@GetMapping("/search")
-//	public String goToSearch() {
-//		
-//		return "search/form";
-//	}
-	
-	
-	@GetMapping("/search")
+
+	@GetMapping("/search/form")
+	public String goToSearch() {
+		
+		return "search/form";
+	}
+
+	@GetMapping("/search/result")
 	public String ShowSearchHandle(@RequestParam(required = false)String keyword, @RequestParam(defaultValue = "1")int page, Model model) {
 			
 			if(keyword == null) {
@@ -56,11 +56,9 @@ public class SearchController {
 			model.addAttribute("pages", pages);
 			
 			model.addAttribute("next", page +1);
-			
+
 			return "search/result";
-		
+
 	}
-	
-	
-	
+
 }

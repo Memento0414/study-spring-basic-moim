@@ -3,6 +3,7 @@
 <div class="py-2 border-bottom">
 	<h5 class="fs-5">#찾아낸 사용자들과 놀라운 이야기를 나눠보세요.</h5>
 </div>
+
 <form class="my-2 p-2" method="get" action="/search">
 	<div class="d-flex justify-content-end g-3">
 		<div class="px-1">
@@ -10,11 +11,13 @@
 		</div>
 		<div class="px-1">
 			<button type="submit" class="btn btn-outline-primary form-control">검색</button>
+
 		</div>
 	</div>
 </form>
 
 <div style="align-items: center;">
+
 		<h6 class="border-bottom pb-2">#사용자들</h6>
 		{{#findUser}}
 			<div class="d-flex text-body-seconadry pt-3">
@@ -36,6 +39,7 @@
 			<li class="page-item"><a class="page-link" href="/search?keyword=&page={{.}}">{{.}}</a></li>
 		{{/pages}}
 		<li class="page-item"><a class="page-link" href="/search?keyword=&page={{next}}">>></a></li>
+
 	</ul>
 </nav>
 
