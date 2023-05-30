@@ -3,7 +3,9 @@ package org.edupoll.controller;
 import java.util.List;
 
 import org.edupoll.Service.MoimService;
+import org.edupoll.Service.ReplyService;
 import org.edupoll.model.entity.Moim;
+import org.edupoll.model.entity.Reply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,10 @@ public class MoimController {
 	
 	@Autowired
 	MoimService moimService;
+	
+	@Autowired
+	ReplyService replyService;
+	
 	
 	//모임 생성페이지 뷰로 이동
 	@GetMapping("/moim/write")
@@ -56,9 +62,18 @@ public class MoimController {
 	}
 	
 	@GetMapping("/moim/view")
-	public String showMoimDetail(String id, Model model) {
+	public String showMoimDetail(String id, @RequestParam(defaultValue = "1")int page, Model model) {
+		
+		logger.debug("showMoimDetail's reusult = {}", id);
 		
 		model.addAttribute("moim", moimService.findMoim(id));
+		
+		List<Reply> replys = replyService.findAll(id, page);
+		model.addAttribute("replys" ,replys);
+		
+		List<String> pages = replyService.replyPagging(page);
+		
+		model.addAttribute("replyPage", pages);
 		
 		return "moim/view";
 	}

@@ -20,13 +20,6 @@ public class ReplyController {
 	@Autowired
 	 MoimService moimService;
 	
-	
-	@GetMapping("/moim/reply")
-	public String gotoReply() {
-		
-		return "moim/reply";
-	}
-	
 	@PostMapping("/moim/reply-task")
 	public String AddReply(Reply reply, String moimId, Model model) {
 		logger.debug("AddReply's result = {}", moimId);
@@ -34,10 +27,10 @@ public class ReplyController {
 		
 		if(rst) {
 
-			return "/redirect:/moim/view?id="+moimId;
+			return "redirect:/moim/view?id=" + moimId;
 		} else {
 			model.addAttribute("error", true);
-			return "moim/reply";
+			return "moim/view";
 		}
 		
 	}

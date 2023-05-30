@@ -16,6 +16,31 @@
 {{/moim }}
 
 <div class="flex-wrap row px-1"></div>
-<a href="/moim/reply">댓글등록</a>
+
+<form action="/moim/reply-task" method="post">
+	<input type="hidden" name="moimId" value="{{moim.id}}"> 
+	<textarea name=text placeholder="내용"></textarea>
+	<input type="password" name="password">
+	<button type="submit">등록</button>
+</form>
+<div style="display: flex; flex-direction: column; align-items: center;">
+	{{#replys}}
+
+		<div class="flex-wrap row px-1">{{text}}</div>
+	{{/replys}}
+</div>
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item disabled">
+      <a class="page-link">Previous</a>
+    </li>
+    {{#replyPage}}
+   		 <li class="page-item"><a class="page-link" href="/moim/view?id={{moim.id}}&page={{.}}">{{.}}</a></li>
+	{{/replyPage}}	 
+    <li class="page-item">
+      <a class="page-link" href="#">Next</a>
+    </li>
+  </ul>
+</nav>
 
 {{ > /common/footer }}

@@ -34,13 +34,8 @@ public class SearchController {
 //	}
 	
 
-	@GetMapping("/search/form")
-	public String goToSearch() {
-		
-		return "search/form";
-	}
 
-	@GetMapping("/search/result")
+	@GetMapping("/search")
 	public String ShowSearchHandle(@RequestParam(required = false)String keyword, @RequestParam(defaultValue = "1")int page, Model model) {
 			
 			if(keyword == null) {
