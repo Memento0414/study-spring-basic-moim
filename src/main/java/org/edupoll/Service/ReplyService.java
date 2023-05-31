@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReplyService {
-
+	
 	@Autowired
 	ReplyRepository replyRepository;
 
@@ -30,34 +30,47 @@ public class ReplyService {
 
 		return true;
 	}
+	
 
-	public List<Reply> findAll(String moimId) {
+	public List<Reply> findByReply(String moimId) {
 
 		return replyRepository.findByMoimIdOrderByIdAsc(moimId);
 
 	}
 
-	public List<Reply> findAll(String moimId, int page) {
+	
+	public List<Reply> findAllReply(String moimId, int page) {
 		PageRequest pages = PageRequest.of(page - 1, 10);
 
 		return replyRepository.findByMoimIdOrderByIdAsc(moimId, pages);
 	}
 
-	public List<String> replyPagging(int page) {
+	
+	public List<String> replyPagging(int page, String moimId) {
 
-		long totalPage = replyRepository.count();
+		
+		long totalData = replyRepository.countByMoimId(moimId);
 
 		List<String> pages = new ArrayList<>();
 
-		for (int i = 1; i <= totalPage / 10 + (totalPage % 10 > 0 ? 1 : 0); i++) {
+		for (int i = 1; i <= totalData / 10 + (totalData % 10 > 0 ? 1 : 0); i++) {
 			pages.add(String.valueOf(i));
 		}
 		return pages;
 	}
 	
-	public boolean deleteReply(String moimId) {
+	
+	public boolean deleteReply(Reply reply, String password) {
 		
-		
+	 if(replyRepository.findById(reply.getId()).isPresent()) {
+		 if(reply.getPassword().equals(password)) {
+			 replyRepository.delete(reply);
+		 }
+		 
+		 return true;
+	 }
+	 
+	 
 		return false;
 		
 	}

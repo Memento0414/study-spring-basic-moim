@@ -3,11 +3,13 @@ package org.edupoll.model.entity;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,6 +27,18 @@ public class UserDetail {
 	@JoinColumn(name="avatarId") //이 user_detail의 avatar_id 값을 이용해서
 	Avatar avatar;
 	
+	@OneToOne(mappedBy = "userDetail", fetch = FetchType.LAZY)
+	User user;
+	
+
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public Integer getIdx() {
 		return idx;
@@ -68,8 +82,9 @@ public class UserDetail {
 	@Override
 	public String toString() {
 		return "UserDetail [idx=" + idx + ", address=" + address + ", birthday=" + birthday + ", description="
-				+ description + ", avatar=" + avatar + "]";
+				+ description + "]";
 	}
+
 
 
 	

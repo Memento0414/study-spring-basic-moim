@@ -55,5 +55,6 @@ public class SearchController {
 			return "search/result";
 
 	}
+	
 
 }

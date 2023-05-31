@@ -1,6 +1,7 @@
 package org.edupoll.model.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -34,186 +35,100 @@ public class Moim {
 	@JoinColumn(name="managerId")
 	User manager;
 	
+	@OneToMany(mappedBy = "moim", fetch = FetchType.LAZY)
+	List<Reply> replys;	
 	
+	@OneToMany(mappedBy = "moim", fetch = FetchType.LAZY)
+	List<Attendance> attendance;
+	
+	
+	public List<Attendance> getAttendance() {
+		return attendance;
+	}
+
+	public void setAttendance(List<Attendance> attendance) {
+		this.attendance = attendance;
+	}
+
+	public List<Reply> getReplys() {
+		return replys;
+	}
+
+	public void setReplys(List<Reply> replys) {
+		this.replys = replys;
+	}
+
 	public String getId() {
 		return id;
 	}
-
-
-
-
-
-
 
 	public void setId(String id) {
 		this.id = id;
 	}
 
-
-
-
-
-
-
 	public String getTitle() {
 		return title;
 	}
-
-
-
-
-
-
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-
-
-
-
-
-
 	public String getCate() {
 		return cate;
 	}
-
-
-
-
-
-
 
 	public void setCate(String cate) {
 		this.cate = cate;
 	}
 
-
-
-
-
-
-
 	public String getDescription() {
 		return description;
 	}
-
-
-
-
-
-
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-
-
-
-
-
-
 	public Integer getMaxPerson() {
 		return maxPerson;
 	}
-
-
-
-
-
-
 
 	public void setMaxPerson(Integer maxPerson) {
 		this.maxPerson = maxPerson;
 	}
 
-
-
-
-
-
-
 	public Integer getCurrentPerson() {
 		return currentPerson;
 	}
-
-
-
-
-
-
 
 	public void setCurrentPerson(Integer currentPerson) {
 		this.currentPerson = currentPerson;
 	}
 
-
-
-
-
-
-
 	public Date getTargetDate() {
 		return targetDate;
 	}
-
-
-
-
-
-
 
 	public void setTargetDate(Date targetDate) {
 		this.targetDate = targetDate;
 	}
 
-
-
-
-
-
-
 	public Integer getDuration() {
 		return duration;
 	}
-
-
-
-
-
-
 
 	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
 
-
-
-
-
-
-
 	public User getManager() {
 		return manager;
 	}
 
-
-
-
-
-
-
 	public void setManager(User manager) {
 		this.manager = manager;
 	}
-
-
-
-
-
-
 
 	@PrePersist
 	public void doPrePersist() {

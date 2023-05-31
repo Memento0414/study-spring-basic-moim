@@ -45,4 +45,10 @@ public class PrivateController {
 		return "redirect:/private/modify";
 	}
 	
+	@GetMapping("/private")
+	public String showPrivateInfoView(@SessionAttribute String logonId, Model model) {
+		
+		 model.addAttribute("user", userService.findSpecifiUserById(logonId));
+		 return "private/default";
+	}
 }

@@ -10,18 +10,31 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="replys")
-public class Reply {
+@Table(name="attendances")
+public class Attendance {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	Integer id;
 	
-	String text;
-	String password;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="userId")
+	User user;
 	
-	@ManyToOne(fetch =FetchType.LAZY )
-	@JoinColumn(name = "moimId")
+	@ManyToOne(fetch = FetchType.LAZY )
+	@JoinColumn(name="moimId")
 	Moim moim;
+	
+	public Attendance() {
+		super();
+	}
+	
+	
+	public Attendance(User user, Moim moim) {
+		super();
+		this.user = user;
+		this.moim = moim;
+	}
+
 
 	public Integer getId() {
 		return id;
@@ -31,20 +44,12 @@ public class Reply {
 		this.id = id;
 	}
 
-	public String getText() {
-		return text;
+	public User getUser() {
+		return user;
 	}
 
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Moim getMoim() {
@@ -54,12 +59,4 @@ public class Reply {
 	public void setMoim(Moim moim) {
 		this.moim = moim;
 	}
-
-	@Override
-	public String toString() {
-		return "Reply [id=" + id + ", text=" + text + ", password=" + password +  "]";
-	}
-	
-	
-	
 }

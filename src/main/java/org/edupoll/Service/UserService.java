@@ -92,5 +92,10 @@ public class UserService {
 		return true;
 
 	}
+	
+	public User findSpecifiUserById(String targetId) {
+		
+		return userRepository.findById(targetId).orElse(null);
+	}
 
 }

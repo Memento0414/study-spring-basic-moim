@@ -11,4 +11,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>{
 	List<Reply> findByMoimIdOrderByIdAsc(String moimId, PageRequest page);
 	
 	List<Reply> findByMoimIdOrderByIdAsc(String moimId);
+	
+	  Long countByMoimId(String moimId);
+
 }
