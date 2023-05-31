@@ -20,6 +20,8 @@ public class ReplyController {
 	@Autowired
 	 MoimService moimService;
 	
+	
+	//댓글 등록
 	@PostMapping("/moim/reply-task")
 	public String AddReply(Reply reply, String moimId, Model model) {
 		logger.debug("AddReply's result = {}", moimId);
@@ -33,5 +35,20 @@ public class ReplyController {
 			return "moim/view";
 		}
 		
+	}
+	
+	@GetMapping("/moim/delete")
+	public String deleteReply(Reply reply ,String password, Model model) {
+		
+		boolean rst = replyService.deleteReply(reply, password);
+		logger.debug("deleteReply's result = {} ",rst);
+		
+			if(rst) {
+				return "redirect:/moim/view";
+				
+			} else {
+				model.addAttribute("error", true);
+				return "moim/view";
+			}
 	}
 }

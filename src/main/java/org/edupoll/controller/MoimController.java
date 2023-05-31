@@ -43,7 +43,7 @@ public class MoimController {
 		String writeId = moimService.createMoim(moim, logonId);
 		logger.debug("searchHandle's result : {} ", writeId);
 		
-		return "/moim/list";
+		return "redirect:/moim/list";
 	}
 	
 	//모임 목록 페이징 불러오기 및 페이징처리
@@ -60,7 +60,7 @@ public class MoimController {
 		return "moim/list";
 		
 	}
-	
+	//특정 모임 정보 보기용 EndPoint + 리플 정보도 같이
 	@GetMapping("/moim/view")
 	public String showMoimDetail(String id, @RequestParam(defaultValue = "1")int page, Model model) {
 		
@@ -68,10 +68,9 @@ public class MoimController {
 		
 		model.addAttribute("moim", moimService.findMoim(id));
 		
-		List<Reply> replys = replyService.findAll(id, page);
-		model.addAttribute("replys" ,replys);
+//		model.addAttribute("replys" ,replyService.findAllReply(id, page));
 		
-		List<String> pages = replyService.replyPagging(page);
+		List<String> pages = replyService.replyPagging(page, id);
 		
 		model.addAttribute("replyPage", pages);
 		

@@ -8,28 +8,62 @@
 		<h1 class="fw-bold">{{title}} <small class="fs-6 text-secondary">{{cate}}</small></h1>
 		<p class="fs-4">{{description }}</p>
 		<p class="text-end text-black-80 fs-smaller">
-			모임 예정일	: {{targetDate }} ({{duration}}h)
+			모임 예정일	: {{targetDate }} ({{duration}}h)<br/>
+			참가 인원     :{{currentPerson}} / {{maxPerson}}
 		</p>
 		
 	</div>
 </div>
 {{/moim }}
+	<button id="join-btn" class="btn btn-danger">참가신청</button>
 
-<div class="flex-wrap row px-1"></div>
-
-<form action="/moim/reply-task" method="post">
-	<input type="hidden" name="moimId" value="{{moim.id}}"> 
-	<textarea name=text placeholder="내용"></textarea>
-	<input type="password" name="password">
-	<button type="submit">등록</button>
-</form>
-<div style="display: flex; flex-direction: column; align-items: center;">
-	{{#replys}}
-
-		<div class="flex-wrap row px-1">{{text}}</div>
-	{{/replys}}
+<!-- 참가자 목록 뷰 -->
+<div class="mb-2 text-end">
+{{#moim.attendance }}
+	<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1"></i> {{user.id }}</span>
+{{/moim.attendance }}
 </div>
-<nav aria-label="Page navigation example">
+<!-- 리플 등록용 Form -->
+<div class="mb-3 border-bottom pb-2">
+	<form action="/moim/reply-task" method="post">
+		<input type="hidden" name="moimId" value="{{moim.id}}" />
+		<div class="mb-2">
+			<textarea class="form-control form-control-sm" placeholder="댓글 내용" name="text" rows="3"></textarea>
+		</div>
+		<div class="row g-2 align-items-center justify-content-end">
+			<div class="col-auto">
+				<input type="password" class="form-control form-control-sm" name="password" placeholder="비밀번호를 설정해주세요">
+			</div>
+			<div class="col-auto">
+				<button class="btn btn-dark text-white btn-sm">문의 등록</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!-- 모임에 달린 리플 보여주기 영역 -->
+<table class="table table-sm">
+	<thead class="table-dark">
+		<tr>
+			<th scope="col" class="col-11">#</th>
+			<th scope="col" class="col-1"></th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#moim.replys }}
+		<tr>
+			<td class="align-middle">{{text}}</td>
+			<td>
+			<a href="/moim/delete">
+				<button class="btn btn-danger btn-sm">
+					<i class="bi bi-xbox"></i>
+				</button></a>
+			</td>
+		</tr>
+		{{/moim.replys }}
+	</tbody>
+</table>
+<nav aria-label="Page navigation example" style="margin-top : 16px;">
   <ul class="pagination justify-content-center">
     <li class="page-item disabled">
       <a class="page-link">Previous</a>
@@ -42,5 +76,32 @@
     </li>
   </ul>
 </nav>
+<script>
+document.querySelector("#join-btn").onclick = (evt)=> {
+	const xhr = new XMLHttpRequest();
+	xhr.open("post", "/api/attendance/join", false);
+	
+	//------------1안-----------------------------------------------------------
+	//xhr.setRequestHeader("content-type", "application/x-www-form-url-encoded");
+	//xhr.send("moimId={{moim.id}}");
+	//-----------------------------------------------------------------------
+	const data = new FormData();
+	data.append("moimId", "{{moim.id}}")
+	xhr.send(data);
+	
+	const txt = xhr.responseText;
+	console.log(txt);
+	
+	if(txt == "true") {
+		
+		window.alert("참가 신청 완료");
+		
+	}else {
+	
+		window.alert("참가 중인 모임에 재신청 할 수 없습니다.");
+	}
+};
+
+</script>
 
 {{ > /common/footer }}

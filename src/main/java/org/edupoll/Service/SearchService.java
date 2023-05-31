@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.edupoll.model.dto.UserResponseData;
+import org.edupoll.model.entity.Moim;
 import org.edupoll.model.entity.User;
+import org.edupoll.repository.MoimRepository;
 import org.edupoll.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,12 @@ public class SearchService {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	MoimRepository moimRepository;
+	
+	
+	
 	
 	public List<UserResponseData> searchKeyword(String keyword) {
 		
@@ -53,6 +61,13 @@ public class SearchService {
 		}
 		return pages;
 		
+	}
+	
+	public List<Moim> MoimSearch(String cate) {
+		
+		List<Moim> found = moimRepository.findByCateContainingAllIgnoreCase(cate);
+		
+		return found;
 	}
 	
 }
