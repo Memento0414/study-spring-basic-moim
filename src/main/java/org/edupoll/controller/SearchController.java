@@ -19,21 +19,6 @@ public class SearchController {
 	
 	@Autowired	SearchService searchService;
 	
-//	
-//	@GetMapping("/search")
-//	public String searchHandle(String keyword, Model model) {
-//		if(keyword != null) {
-//		List<UserResponseData> list = searchService.searchKeyword(keyword);
-//		logger.debug("searchHandle's result : {} ", keyword);
-//		model.addAttribute("list", list);
-//		model.addAttribute("keyword", keyword);
-//		
-//		
-//		}
-//		return "search";
-//	}
-	
-
 
 	@GetMapping("/search")
 	public String ShowSearchHandle(@RequestParam(required = false)String keyword, @RequestParam(defaultValue = "1")int page, Model model) {
@@ -47,7 +32,7 @@ public class SearchController {
 			model.addAttribute("findUser",findUser);
 			model.addAttribute("keyword", keyword);
 			
-			List<String> pages = searchService.findAllUserPageCount(page, keyword);
+			List<String> pages = searchService.findByUserPageCount(page, keyword);
 			model.addAttribute("pages", pages);
 			
 			

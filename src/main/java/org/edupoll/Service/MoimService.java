@@ -2,9 +2,11 @@ package org.edupoll.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.edupoll.model.entity.Attendance;
 import org.edupoll.model.entity.Moim;
+import org.edupoll.model.entity.Reply;
 import org.edupoll.model.entity.User;
 import org.edupoll.repository.AttendanceRepository;
 import org.edupoll.repository.MoimRepository;
@@ -15,9 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Service
 public class MoimService {
@@ -77,14 +76,33 @@ public class MoimService {
 		return pages;
 	}
 	
-	public void deleteMoim(String moimId) {
-		
-		
-	
-		
-		
-		
-	}
+	public boolean deleteMoim(String moimId) {
 
+		Optional<Moim> moimOption = moimRepository.findById(moimId);
+
+		if (moimOption.isEmpty()) {
+			return false;
+
+		}
+		Moim moim = moimOption.get();
+
+		List<Reply> reply = moim.getReplys();
+		List<Attendance> attend = moim.getAttendance();
+		
+		//리플 찾아서 삭제
+		for (Reply found : reply) {
+
+			replyRepository.deleteById(found.getId());
+		}
+		//모임에 참가자들 삭제
+		for (Attendance findAttend : attend) {
+
+			attendanceRepository.deleteById(findAttend.getId());
+		}
+		//모임 삭제
+		moimRepository.delete(moim);
+		return true;
+
+	}
 
 }

@@ -6,6 +6,7 @@ import org.edupoll.Service.AttendanceService;
 import org.edupoll.Service.MoimService;
 import org.edupoll.Service.ReplyService;
 import org.edupoll.model.entity.Moim;
+import org.edupoll.model.entity.Reply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,10 @@ public class MoimController {
 		model.addAttribute("moim", moimService.findMoim(id));
 	
 		model.addAttribute("isJoined", attendanceService.CheckJoinedAttend(logonId, id));
+		
+		List<Reply> replys = replyService.pageByReply(id, page);
+		model.addAttribute("replys",replys);
+		
 		List<String> pages = replyService.replyPagging(page, id);
 		
 		model.addAttribute("replyPage", pages);

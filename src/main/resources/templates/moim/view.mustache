@@ -35,7 +35,7 @@
 <!-- 참가자 목록 뷰 -->
 <div class="mb-2 text-end" id="attends">
 {{#moim.attendance }}
-	<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1"></i> {{user.id }}</span>
+	<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1" style="margin: 8px"></i> {{user.id }}</span>
 {{/moim.attendance }}
 </div>
 <!-- 리플 등록용 Form -->
@@ -70,7 +70,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{{#moim.replys }}
+		{{#replys }}
 		<tr>
 			<td class="align-middle">{{text}}</td>
 			<td>
@@ -79,7 +79,7 @@
 				</button>
 			</td>
 		</tr>
-		{{/moim.replys }}
+		{{/replys}}
 	</tbody>
 </table>
 <nav aria-label="Page navigation example" style="margin-top : 16px;">
@@ -133,7 +133,7 @@ document.querySelector("#join-btn").onclick = (evt)=> {
 			let idsHTML="";
 			for(var i of obj.attendUserIds){
 				idsHTML +=
-					'<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1" style="margin: 8px"></i>'+i+'</span>';
+					`<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1" style="margin: 8px"></i> ${i}</span>`;
 			};
 			
 			document.querySelector("#attends").innerHTML = idsHTML;
@@ -159,11 +159,9 @@ document.querySelector("#join-btn").onclick = (evt)=> {
 		document.querySelector("#cp").innerHTML = obj.currentPerson;
 		let idsHTML="";
 		
-		for(var i of obj.attendUserIds){
+		for(let i of obj.attendUserIds){
 				idsHTML +=
-					'<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1" style="margin: 8px"></i>'+i+'</span>';
-	
-			
+					`<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1" style="margin: 8px"></i>${i}</span>`;
 			
 		}
 		document.querySelector("#attends").innerHTML = idsHTML;
