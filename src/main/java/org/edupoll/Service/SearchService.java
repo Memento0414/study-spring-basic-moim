@@ -3,7 +3,7 @@ package org.edupoll.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.edupoll.model.dto.UserResponseData;
+import org.edupoll.model.dto.response.UserResponseData;
 import org.edupoll.model.entity.Moim;
 import org.edupoll.model.entity.User;
 import org.edupoll.repository.MoimRepository;
@@ -26,19 +26,19 @@ public class SearchService {
 	
 	
 	
-	public List<UserResponseData> searchKeyword(String keyword) {
-		
-		List<User> findKeyword= userRepository.findByIdContainingOrNickContainingAllIgnoreCase(keyword, keyword);
-		
+//	public List<UserResponseData> searchKeyword(String keyword) {
+//		
+//		List<User> findKeyword= userRepository.findByIdContainingOrNickContainingAllIgnoreCase(keyword, keyword);
+//		
 //		List<UserResponseData> trans = new ArrayList<>();
 //		
 //		for(User user : findKeyword) {
 //			
 //			trans.add(new UserResponseData(user));
 //		}
-		
-		return findKeyword.stream().map(t -> new UserResponseData(t)).toList();
-	}
+//		
+//		return findKeyword.stream().map(t -> new UserResponseData(t)).toList();
+//	}
 	
 	//유저 혹은 닉 으로 검색할 사용
 	public List<User> findAllUser (String keyword, int page) {
@@ -50,13 +50,13 @@ public class SearchService {
 		
 	}
 	
-	public List<String> findAllUserPagging (int page) {
+	public List<String> findAllUserPageCount (int page, String keyword) {
 		
-		long totalPage = userRepository.count();
+		long totalData = userRepository.count();
 		
 		List<String> pages = new ArrayList<>();
 		
-		for(int i = 1; i < totalPage / 12 + (totalPage % 12 > 0 ? 1 : 0); i++) {
+		for(int i = 1; i < totalData / 12 + (totalData % 12 > 0 ? 1 : 0); i++) {
 			pages.add(String.valueOf(i));
 		}
 		return pages;

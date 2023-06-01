@@ -14,4 +14,8 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>{
 	
 	  Long countByMoimId(String moimId);
 
+
+
+
+
 }

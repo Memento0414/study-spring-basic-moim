@@ -2,9 +2,14 @@ package org.edupoll.Service;
 
 import java.util.Optional;
 
-import org.edupoll.model.dto.LoginRequestData;
+import org.edupoll.model.dto.request.LoginRequestData;
+import org.edupoll.model.entity.Moim;
+import org.edupoll.model.entity.Reply;
 import org.edupoll.model.entity.User;
 import org.edupoll.model.entity.UserDetail;
+import org.edupoll.repository.AttendanceRepository;
+import org.edupoll.repository.MoimRepository;
+import org.edupoll.repository.ReplyRepository;
 import org.edupoll.repository.UserDetailRepository;
 import org.edupoll.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +24,16 @@ public class UserService {
 
 	@Autowired
 	UserDetailRepository userDetailRepository;
+	
+	@Autowired
+	MoimRepository moimRepository;
+	
+	@Autowired
+	AttendanceRepository attendanceRepository;
+	
+	@Autowired
+	ReplyRepository replyRepository;
+	
 
 	// 회원 가입을 처리할 서비스 메서드
 	public boolean create(User user) {
@@ -86,6 +101,7 @@ public class UserService {
 
 		User found = userRepository.findById(logonId).get();
 		UserDetail userDetail = found.getUserDetail();
+	
 
 		userRepository.delete(found);
 		userDetailRepository.delete(found.getUserDetail());
@@ -93,9 +109,12 @@ public class UserService {
 
 	}
 	
+	
 	public User findSpecifiUserById(String targetId) {
 		
 		return userRepository.findById(targetId).orElse(null);
 	}
 
+
+	
 }

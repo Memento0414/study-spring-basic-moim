@@ -3,7 +3,7 @@ package org.edupoll.controller;
 import java.util.List;
 
 import org.edupoll.Service.SearchService;
-import org.edupoll.model.dto.UserResponseData;
+import org.edupoll.model.dto.response.UserResponseData;
 import org.edupoll.model.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,10 +47,10 @@ public class SearchController {
 			model.addAttribute("findUser",findUser);
 			model.addAttribute("keyword", keyword);
 			
-			List<String> pages = searchService.findAllUserPagging(page);
+			List<String> pages = searchService.findAllUserPageCount(page, keyword);
 			model.addAttribute("pages", pages);
 			
-			model.addAttribute("next", page +1);
+			
 
 			return "search/result";
 

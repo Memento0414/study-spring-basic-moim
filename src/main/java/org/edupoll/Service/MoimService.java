@@ -3,9 +3,12 @@ package org.edupoll.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.edupoll.model.entity.Attendance;
 import org.edupoll.model.entity.Moim;
 import org.edupoll.model.entity.User;
+import org.edupoll.repository.AttendanceRepository;
 import org.edupoll.repository.MoimRepository;
+import org.edupoll.repository.ReplyRepository;
 import org.edupoll.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +27,12 @@ public class MoimService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	ReplyRepository replyRepository;
+	
+	@Autowired
+	AttendanceRepository attendanceRepository;
 	
 	//모임 생성
 	public String createMoim(Moim moim, String logonId) {
@@ -68,6 +77,14 @@ public class MoimService {
 		return pages;
 	}
 	
+	public void deleteMoim(String moimId) {
+		
+		
 	
+		
+		
+		
+	}
+
 
 }
