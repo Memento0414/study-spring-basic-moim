@@ -7,7 +7,8 @@
 <div class="row p-3">
 	<!-- 개인 프로필 및 프로필 변경 링크 -->
 	<div class="col-md-3 card p-2">
-		{{#user.userDetail.avatar }} <img src="{{url}}" width="90%" />
+		{{#user.userDetail.avatar }} 
+			<img src="{{url}}" width="90%" />
 		{{/user.userDetail.avatar }}
 		<div class="fs-5 text-secondary mb-2">@ {{user.id }}
 			({{user.nick}} )</div>

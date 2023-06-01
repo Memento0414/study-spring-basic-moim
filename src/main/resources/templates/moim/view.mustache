@@ -2,37 +2,57 @@
 {{> /common/navi-bar}}
 
 {{#moim }}
-<div class="p-2 mb-2 bg-light rounded-3">
+<div class="p-2 mb-2 bg-dark text-white rounded-3">
 	<div class="container-fluid py-2">
-		<p class="fs-5 text-warning" >@{{manager.nick }} 님의 모임</p>
-		<h1 class="fw-bold">{{title}} <small class="fs-6 text-secondary">{{cate}}</small></h1>
+		<div class="d-flex align-items-center mb-2">
+			{{#manager.userDetail.avatar.url }} <img src="{{.}}"
+				style="width: 48px" class="me-2" />
+			{{/manager.userDetail.avatar.url }}
+			<div class="fs-5 text-warning">@{{manager.id
+				}}({{manager.nick}}) 님의 모임  
+				<span class="badge bg-warning"><span id="cp">{{currentPerson}}</span> / 
+				{{#maxPerson }}{{.}}{{/maxPerson}}
+				{{^maxPerson }}제한없음{{/maxPerson}}
+				</span>
+				</div>
+		</div>
+
+		<h1 class="fw-bold">
+			{{title}} <small class="fs-6 text-secondary">{{cate}}</small>
+		</h1>
 		<p class="fs-4">{{description }}</p>
-		<p class="text-end text-black-80 fs-smaller">
-			모임 예정일	: {{targetDate }} ({{duration}}h)<br/>
-			참가 인원     :{{currentPerson}} / {{maxPerson}}
-		</p>
-		
+		<p class="text-end text-black-80 fs-smaller">모임 예정일 : {{targetDate
+			}} ({{duration}}h)</p>
 	</div>
+	{{#isJoined}}
+		<button id="join-btn" class="btn btn-danger btn-sm" style="margin: 8px" data-status="joined" data-target="{{moim.id}}">참가취소</button>
+	{{/isJoined}}
+	{{^isJoined}}
+		<button id="join-btn" class="btn btn-primary btn-sm" style="margin: 8px" data-status="not-joined" data-target="{{moim.id}}">참가신청하기</button>
+	{{/isJoined}}	
 </div>
 {{/moim }}
-	<button id="join-btn" class="btn btn-danger">참가신청</button>
-
 <!-- 참가자 목록 뷰 -->
-<div class="mb-2 text-end">
+<div class="mb-2 text-end" id="attends">
 {{#moim.attendance }}
 	<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1"></i> {{user.id }}</span>
 {{/moim.attendance }}
 </div>
 <!-- 리플 등록용 Form -->
 <div class="mb-3 border-bottom pb-2">
-	<form action="/moim/reply-task" method="post">
+	<form action="/moim/reply-task" method="post" >
 		<input type="hidden" name="moimId" value="{{moim.id}}" />
 		<div class="mb-2">
-			<textarea class="form-control form-control-sm" placeholder="댓글 내용" name="text" rows="3"></textarea>
+			<textarea
+				 class="form-control form-control-sm" placeholder="문의 글을 남겨주세요." 
+				 name="text"
+				rows="3"></textarea>
 		</div>
 		<div class="row g-2 align-items-center justify-content-end">
 			<div class="col-auto">
-				<input type="password" class="form-control form-control-sm" name="password" placeholder="비밀번호를 설정해주세요">
+				<input type="password" 
+				class="form-control form-control-sm" name="password"
+					placeholder="비밀번호를 설정해주세요">
 			</div>
 			<div class="col-auto">
 				<button class="btn btn-dark text-white btn-sm">문의 등록</button>
@@ -54,10 +74,9 @@
 		<tr>
 			<td class="align-middle">{{text}}</td>
 			<td>
-			<a href="/moim/delete">
 				<button class="btn btn-danger btn-sm">
-					<i class="bi bi-xbox"></i>
-				</button></a>
+					<i class="bi bi-trash3"></i>
+				</button>
 			</td>
 		</tr>
 		{{/moim.replys }}
@@ -78,29 +97,82 @@
 </nav>
 <script>
 document.querySelector("#join-btn").onclick = (evt)=> {
-	const xhr = new XMLHttpRequest();
-	xhr.open("post", "/api/attendance/join", false);
 	
-	//------------1안-----------------------------------------------------------
-	//xhr.setRequestHeader("content-type", "application/x-www-form-url-encoded");
-	//xhr.send("moimId={{moim.id}}");
-	//-----------------------------------------------------------------------
-	const data = new FormData();
-	data.append("moimId", "{{moim.id}}")
-	xhr.send(data);
+	const status = document.querySelector("#join-btn").dataset.status
 	
-	const txt = xhr.responseText;
-	console.log(txt);
-	
-	if(txt == "true") {
+	if(status ==="not-joined"){
+		SendAddAttendanceReq();
 		
-		window.alert("참가 신청 완료");
+	} else{
 		
-	}else {
-	
-		window.alert("참가 중인 모임에 재신청 할 수 없습니다.");
+		sendDeleteAttendanceReq();
 	}
+	
 };
+	
+	
+	function SendAddAttendanceReq(){
+		const xhr = new XMLHttpRequest();
+		xhr.open("post", "/api/attendance/join", false);
+		
+		//------------1안-----------------------------------------------------------
+		//xhr.setRequestHeader("content-type", "application/x-www-form-url-encoded");
+		//xhr.send("moimId={{moim.id}}");
+		//-----------------------------------------------------------------------
+		const data = new FormData();
+		data.append("moimId", "{{moim.id}}")
+		xhr.send(data);
+		
+		const txt = xhr.responseText;
+		const obj = JSON.parse(txt);
+
+		if(obj.result) {
+			
+			document.querySelector("#cp").innerHTML = obj.currentPerson;
+			
+			let idsHTML="";
+			for(var i of obj.attendUserIds){
+				idsHTML +=
+					'<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1" style="margin: 8px"></i>'+i+'</span>';
+			};
+			
+			document.querySelector("#attends").innerHTML = idsHTML;
+			document.querySelector("#join-btn").innerHTML = "참가취소";
+			document.querySelector("#join-btn").dataset.status ="joined";
+			document.querySelector("#join-btn").classList.remove("btn-primary");
+			document.querySelector("#join-btn").classList.add("btn-danger");
+			
+		}else {
+		
+			window.alert(obj.errorMessage);
+		}
+	};
+	<!--참가 취소 -->
+	function sendDeleteAttendanceReq() {
+		const target = document.querySelector("#join-btn").dataset.target;
+		const xhr = new XMLHttpRequest();
+		
+		xhr.open("delete", "/api/attendance/cancel?moimId="+target, false);
+		xhr.send();
+		const obj = JSON.parse(xhr.responseText);
+		
+		document.querySelector("#cp").innerHTML = obj.currentPerson;
+		let idsHTML="";
+		
+		for(var i of obj.attendUserIds){
+				idsHTML +=
+					'<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1" style="margin: 8px"></i>'+i+'</span>';
+	
+			
+			
+		}
+		document.querySelector("#attends").innerHTML = idsHTML;
+		document.querySelector("#join-btn").innerHTML = "참가신청하기";
+		document.querySelector("#join-btn").dataset.status ="not-joined";
+		document.querySelector("#join-btn").classList.remove("btn-danger");
+		document.querySelector("#join-btn").classList.add("btn-primary");
+	};
+	
 
 </script>
 

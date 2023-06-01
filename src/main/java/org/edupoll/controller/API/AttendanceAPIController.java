@@ -1,15 +1,16 @@
 package org.edupoll.controller.API;
 
 import org.edupoll.Service.AttendanceService;
+import org.edupoll.model.dto.response.AttendanceJoinResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-@Controller
+@RestController
 @RequestMapping("/api")
 public class AttendanceAPIController {
 	
@@ -18,26 +19,19 @@ public class AttendanceAPIController {
 	
 	
 	@PostMapping("/attendance/join")
-	@ResponseBody
-	public String AttendMoimJoinHandle(@SessionAttribute String logonId, String moimId) {
+	public AttendanceJoinResponseData AttendMoimJoinHandle(@SessionAttribute String logonId, String moimId) {
 		
-		boolean rst = attendanceService.addNewMoimAttendance(logonId, moimId);
+		AttendanceJoinResponseData rst = attendanceService.addNewMoimAttendance(logonId, moimId);
 		
-		return String.valueOf(rst);
+		return rst;
 	}
 	
-	@GetMapping("/attendance/delete") 
 	
-	public String deleteAttendHandle(int id, String moimId) {
+	@DeleteMapping("/attendance/cancel")
+	public AttendanceJoinResponseData attendanceCancelHandle(@SessionAttribute String logonId, String moimId) {
 		
-		boolean rst = attendanceService.deleteAttend(id);
-		
-			if(rst) {
-				return "/private/view"+moimId;
-			} else {
-				
-				return "redirect:/private/list";
-			}
-	
+		return attendanceService.cancelAttendance(logonId, moimId);
 	}
+	
+	
 }

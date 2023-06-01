@@ -10,6 +10,9 @@ spring:
    servlet:
      expose-session-attributes: true
      
+ jackson:
+   default-property-inclusion: NON_NULL    
+     
  datasource :
       driver-class-name : oracle.jdbc.driver.OracleDriver
       url : jdbc:oracle:thin:@3.34.136.30:1521:xe   

@@ -45,6 +45,7 @@ public class PrivateController {
 		return "redirect:/private/modify";
 	}
 	
+	//프로필 뷰에 보이는 정보 처리 
 	@GetMapping("/private")
 	public String showPrivateInfoView(@SessionAttribute String logonId, Model model) {
 		
