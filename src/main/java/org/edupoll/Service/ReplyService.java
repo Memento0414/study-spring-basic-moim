@@ -19,7 +19,8 @@ public class ReplyService {
 
 	@Autowired
 	MoimRepository moimRepository;
-
+	
+	/**모임 생성 메서드*/
 	public boolean addNewReply(Reply reply, String moimId) {
 
 		Moim moim = moimRepository.findById(moimId).get();
@@ -31,26 +32,26 @@ public class ReplyService {
 		return true;
 	}
 	
-
+	/**특정 모임 찾는 메서드*/
 	public List<Reply> findByReply(String moimId) {
 
 		return replyRepository.findByMoimIdOrderByIdAsc(moimId);
 
 	}
 
-	
-	public List<Reply> findAllReply(String moimId, int page) {
+	/**페이징 하기 메서드*/
+	public List<Reply> pageByReply(String moimId, int page) {
 		PageRequest pages = PageRequest.of(page - 1, 10);
 
 		return replyRepository.findByMoimIdOrderByIdAsc(moimId, pages);
 	}
 
-	
+	/**페이징 처리를 위한 페이지수*/
 	public List<String> replyPagging(int page, String moimId) {
 
 		
 		long totalData = replyRepository.countByMoimId(moimId);
-
+			System.out.println("totalData => " +totalData);
 		List<String> pages = new ArrayList<>();
 
 		for (int i = 1; i <= totalData / 10 + (totalData % 10 > 0 ? 1 : 0); i++) {
@@ -60,19 +61,5 @@ public class ReplyService {
 	}
 	
 	
-	public boolean deleteReply(Reply reply, String password) {
-		
-	 if(replyRepository.findById(reply.getId()).isPresent()) {
-		 if(reply.getPassword().equals(password)) {
-			 replyRepository.delete(reply);
-		 }
-		 
-		 return true;
-	 }
-	 
-	 
-		return false;
-		
-	}
 	
 }
