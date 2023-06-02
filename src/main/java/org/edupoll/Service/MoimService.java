@@ -2,15 +2,20 @@ package org.edupoll.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.edupoll.model.dto.response.PageItem;
+import org.edupoll.model.dto.response.Pagination;
 import org.edupoll.model.entity.Attendance;
 import org.edupoll.model.entity.Moim;
+import org.edupoll.model.entity.Reply;
 import org.edupoll.model.entity.User;
 import org.edupoll.repository.AttendanceRepository;
 import org.edupoll.repository.MoimRepository;
 import org.edupoll.repository.ReplyRepository;
 import org.edupoll.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -33,6 +38,9 @@ public class MoimService {
 	
 	@Autowired
 	AttendanceRepository attendanceRepository;
+	
+	@Value("${config.moim.pageSize}")
+	int pageSize;
 	
 	//모임 생성
 	public String createMoim(Moim moim, String logonId) {
@@ -59,30 +67,68 @@ public class MoimService {
 	
 	
 	public List<Moim> findAllMoim(int page){
-		PageRequest pageRequest = PageRequest.of(page-1, 12, Sort.by(Direction.ASC, "targetDate"));
+		PageRequest pageRequest = PageRequest.of(page-1, pageSize, Sort.by(Direction.ASC, "targetDate"));
 		
 		return  moimRepository.findAll(pageRequest).toList();
 	}
 	
 	
-	public List<String> MoimPaggingCount (int page){
+	public Pagination MoimPaggingCount (int currentPage){
+		//페이지 분량 설정하기 
+		long totalData = moimRepository.count();
+		long lastPage = totalData / pageSize + (totalData % pageSize > 0 ? 1: 0);
 		
-		long totalPage = moimRepository.count();
+		List<PageItem> pages = new ArrayList<>();
 		
-		List<String> pages = new ArrayList<>();
-		for(int i = 1; i <= totalPage/12 + (totalPage% 12 > 0 ? 1: 0); i++) {
-			pages.add(String.valueOf(i));
+		long endValue = (long)(Math.ceil(currentPage/5.0)*5);
+		long startValue = endValue - 4;
+		
+		if(endValue > lastPage) {
+			endValue = lastPage;
+		}
+		
+		
+		for(long i = startValue; i <=endValue ; i++) {
+			pages.add(new PageItem(i, i == currentPage));
 			
 		}
-		return pages;
+
+		PageItem prev = (startValue != 1) ? new PageItem(startValue - 1, true) : new PageItem(startValue, false);
+		PageItem next = (endValue < lastPage) ? new PageItem(endValue + 1, true) : new PageItem(endValue, false);
+	
+		Pagination pagenation = new Pagination(prev, next, pages);
+		
+		return pagenation;
 	}
 	
-	public void deleteMoim(String moimId) {
+	//모임 삭제
+	public boolean deleteMoim(String moimId) {
 		
+		Optional<Moim> optionMoim = moimRepository.findById(moimId);
 		
+		if(optionMoim.isEmpty()) {
+			
+			return false;
+		}
+		
+		Moim moim = optionMoim.get();
+		
+		List<Reply> replys = moim.getReplys();
+		List<Attendance> attend = moim.getAttendance();
+		
+		for(Reply r : replys) {
+			
+			replyRepository.deleteById(r.getId());
+		}
+		
+		for(Attendance a : attend) {
+			
+			attendanceRepository.deleteById(a.getId());
+		}
 	
+		moimRepository.delete(moim);
 		
-		
+		return true;
 		
 	}
 

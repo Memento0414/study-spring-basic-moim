@@ -43,7 +43,7 @@ public class SearchController {
 				return "/search/form";
 			}
 		
-			List<User> findUser = searchService.findAllUser(keyword, page);
+			List<UserResponseData> findUser = searchService.findAllUser(keyword, page);
 			model.addAttribute("findUser",findUser);
 			model.addAttribute("keyword", keyword);
 			

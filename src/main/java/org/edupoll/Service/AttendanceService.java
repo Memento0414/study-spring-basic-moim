@@ -1,6 +1,5 @@
 package org.edupoll.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,7 +117,7 @@ public class AttendanceService {
 		Moim saved = moimRepository.save(moim);
 		
 		ajrd.setCurrentPerson(saved.getCurrentPerson());
-		List<String> ids = saved.getAttendance().stream().map(t->t.getUser().getId()).toList();
+		List<String> ids = attendanceRepository.findByMoimIdIs(moimId).stream().map(t->t.getUser().getId()).toList();
 		ajrd.setAttendUserIds(ids);
 		
 		return ajrd;

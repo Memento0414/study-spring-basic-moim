@@ -31,4 +31,8 @@ spring:
 server :
   servlet :
     encoding :
-      force : true         
+      force : true     
+      
+config :
+  moim :
+   pageSize : 8   

@@ -41,20 +41,27 @@ public class SearchService {
 //	}
 	
 	//유저 혹은 닉 으로 검색할 사용
-	public List<User> findAllUser (String keyword, int page) {
+	public List<UserResponseData> findAllUser (String keyword, int page) {
 		
 		List<User> findUser = userRepository.findByIdContainingOrNickContainingAllIgnoreCase
 				(keyword, keyword, PageRequest.of(page-1, 12, Sort.by(Direction.ASC, "id")));
+		List<UserResponseData> respList = new ArrayList<>();
 		
-		return findUser;
+		for(User user : findUser) {
+			respList.add(new UserResponseData(user));
+		}
+		
+		
+		return findUser.stream().map(t-> new UserResponseData(t)).toList();
 		
 	}
 	
 	public List<String> findAllUserPageCount (int page, String keyword) {
 		
-		long totalData = userRepository.count();
+		long totalData = userRepository.countByIdContainingOrNickContainingAllIgnoreCase(keyword, keyword);
 		
 		List<String> pages = new ArrayList<>();
+		
 		
 		for(int i = 1; i < totalData / 12 + (totalData % 12 > 0 ? 1 : 0); i++) {
 			pages.add(String.valueOf(i));
@@ -69,5 +76,6 @@ public class SearchService {
 		
 		return found;
 	}
+	
 	
 }
