@@ -36,7 +36,7 @@ public class ReplyController {
 		}
 		
 	}
-	
+
 	@GetMapping("/moim/reply -delete")
 	public String deleteReply(Reply reply, String password, Model model) {
 
@@ -50,5 +50,5 @@ public class ReplyController {
 			return "moim/view";
 		}
 	}
-
+  
 }

@@ -3,7 +3,6 @@ package org.edupoll.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.edupoll.model.dto.response.UserResponseData;
 import org.edupoll.model.entity.Moim;
 import org.edupoll.model.entity.User;
 import org.edupoll.repository.MoimRepository;
@@ -56,9 +55,14 @@ public class SearchService {
 		
 	}
 	
-	public List<String> findAllUserPageCount (int page, String keyword) {
+	public List<String> findByUserPageCount (int page, String keyword) {
+			
+		List<User> list = userRepository.findByIdContainingOrNickContainingAllIgnoreCase(keyword, keyword);
 		
+		
+
 		long totalData = userRepository.countByIdContainingOrNickContainingAllIgnoreCase(keyword, keyword);
+
 		
 		List<String> pages = new ArrayList<>();
 		
