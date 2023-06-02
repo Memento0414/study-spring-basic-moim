@@ -8,8 +8,7 @@
 			{{#manager.userDetail.avatar.url }} <img src="{{.}}"
 				style="width: 48px" class="me-2" />
 			{{/manager.userDetail.avatar.url }}
-			<div class="fs-5 text-warning">@{{manager.id
-				}}({{manager.nick}}) 님의 모임  
+			<div class="fs-5 text-warning">@{{manager.id}}({{manager.nick}}) 님의 모임  
 				<span class="badge bg-warning"><span id="cp">{{currentPerson}}</span> / 
 				{{#maxPerson }}{{.}}{{/maxPerson}}
 				{{^maxPerson }}제한없음{{/maxPerson}}
@@ -24,18 +23,24 @@
 		<p class="text-end text-black-80 fs-smaller">모임 예정일 : {{targetDate
 			}} ({{duration}}h)</p>
 	</div>
-	{{#isJoined}}
-		<button id="join-btn" class="btn btn-danger btn-sm" style="margin: 8px" data-status="joined" data-target="{{moim.id}}">참가취소</button>
-	{{/isJoined}}
-	{{^isJoined}}
-		<button id="join-btn" class="btn btn-primary btn-sm" style="margin: 8px" data-status="not-joined" data-target="{{moim.id}}">참가신청하기</button>
-	{{/isJoined}}	
+	{{#isLogon}} 
+		{{#isJoined}}
+			<button id="join-btn" class="btn btn-danger btn-sm" style="margin: 8px" data-status="joined" data-target="{{moim.id}}">참가취소</button>
+		{{/isJoined}} 
+		{{^isJoined}}
+			<button id="join-btn" class="btn btn-primary btn-sm" style="margin: 8px" data-status="not-joined" data-target="{{moim.id}}">참가신청하기</button>
+		{{/isJoined}} 
+	{{/isLogon}}
+	{{^isLogon}}
+			<button id="join-btn disable" class="btn btn-primary btn-sm" style="margin: 8px" data-status="not-joined" data-target="{{moim.id}}">참가신청하기</button>
+	{{/isLogon}}
 </div>
 {{/moim }}
 <!-- 참가자 목록 뷰 -->
 <div class="mb-2 text-end" id="attends">
 {{#moim.attendance }}
-	<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1" style="margin: 8px"></i> {{user.id }}</span>
+	<span class="badge bg-secondary fs-6 me-1 mb-1"><i class="bi bi-person-circle me-1"></i> {{user.id }}</span>
+
 {{/moim.attendance }}
 </div>
 <!-- 리플 등록용 Form -->
@@ -98,7 +103,7 @@
 <script>
 document.querySelector("#join-btn").onclick = (evt)=> {
 	
-	const status = document.querySelector("#join-btn").dataset.status
+	const status = document.querySelector("#join-btn").dataset.status;
 	
 	if(status ==="not-joined"){
 		SendAddAttendanceReq();
@@ -133,7 +138,9 @@ document.querySelector("#join-btn").onclick = (evt)=> {
 			let idsHTML="";
 			for(var i of obj.attendUserIds){
 				idsHTML +=
-					`<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1" style="margin: 8px"></i> ${i}</span>`;
+
+					`<span class="badge bg-secondary fs-6 me-1 mb-1"><i class="bi bi-person-circle me-1"></i>${i}</span>`;
+
 			};
 			
 			document.querySelector("#attends").innerHTML = idsHTML;
@@ -155,13 +162,17 @@ document.querySelector("#join-btn").onclick = (evt)=> {
 		xhr.open("delete", "/api/attendance/cancel?moimId="+target, false);
 		xhr.send();
 		const obj = JSON.parse(xhr.responseText);
-		
+		console.log(obj);
 		document.querySelector("#cp").innerHTML = obj.currentPerson;
 		let idsHTML="";
 		
 		for(let i of obj.attendUserIds){
 				idsHTML +=
-					`<span class="badge bg-secondary fs-6"><i class="bi bi-person-circle me-1" style="margin: 8px"></i>${i}</span>`;
+
+					`<span class="badge bg-secondary fs-6 me-1 mb-1"><i class="bi bi-person-circle me-1"></i>${i}</span>`;
+	
+			
+
 			
 		}
 		document.querySelector("#attends").innerHTML = idsHTML;

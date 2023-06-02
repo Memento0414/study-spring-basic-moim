@@ -37,5 +37,18 @@ public class ReplyController {
 		
 	}
 
-	
+	@GetMapping("/moim/reply -delete")
+	public String deleteReply(Reply reply, String password, Model model) {
+
+		boolean rst = replyService.deleteReply(reply, password);
+		logger.debug("deleteReply's result = {} ", rst);
+		if (rst) {
+			return "redirect:/moim/view";
+
+		} else {
+			model.addAttribute("error", true);
+			return "moim/view";
+		}
+	}
+  
 }

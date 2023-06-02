@@ -5,6 +5,8 @@ import java.util.List;
 import org.edupoll.Service.AttendanceService;
 import org.edupoll.Service.MoimService;
 import org.edupoll.Service.ReplyService;
+import org.edupoll.model.dto.response.PageItem;
+import org.edupoll.model.dto.response.Pagination;
 import org.edupoll.model.entity.Moim;
 import org.edupoll.model.entity.Reply;
 import org.slf4j.Logger;
@@ -55,29 +57,41 @@ public class MoimController {
 		List<Moim> list = moimService.findAllMoim(page);
 		model.addAttribute("list", list);
 		
-		List<String> pages = moimService.MoimPaggingCount(page);
-		model.addAttribute("pages" ,pages);
+		Pagination pagination = moimService.MoimPaggingCount(page);
+		model.addAttribute("pagination" ,pagination);
 		
 		return "moim/list";
 		
 	}
 	//특정 모임 정보 보기용 EndPoint + 리플 정보도 같이
 	@GetMapping("/moim/view")
-	public String showMoimDetail(String id,@RequestParam(defaultValue = "1")int page, @SessionAttribute String logonId, Model model) {
+	public String showMoimDetail(String id,@RequestParam(defaultValue = "1")int page, @SessionAttribute(required = false) String logonId, Model model) {
 		
 		logger.debug("showMoimDetail's reusult = {}", id);
 		
 		model.addAttribute("moim", moimService.findMoim(id));
-	
-		model.addAttribute("isJoined", attendanceService.CheckJoinedAttend(logonId, id));
 		
-		List<Reply> replys = replyService.pageByReply(id, page);
-		model.addAttribute("replys",replys);
+		model.addAttribute("isLogon" ,logonId != null);
+		
+		if(logonId != null) {
+		model.addAttribute("isJoined", attendanceService.CheckJoinedAttend(logonId, id));
+
+		}
+
 		
 		List<String> pages = replyService.replyPagging(page, id);
-		
 		model.addAttribute("replyPage", pages);
 		
 		return "moim/view";
+	}
+	
+	@GetMapping("/moim/delete")
+	public String deleteMoim(String id) {
+		
+		boolean rst = moimService.deleteMoim(id);
+		
+		return "/moim/list";
+		
+		
 	}
 }
