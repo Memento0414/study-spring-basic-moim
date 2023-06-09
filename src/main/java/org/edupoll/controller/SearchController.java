@@ -20,21 +20,6 @@ public class SearchController {
 	
 	@Autowired	SearchService searchService;
 	
-//	
-//	@GetMapping("/search")
-//	public String searchHandle(String keyword, Model model) {
-//		if(keyword != null) {
-//		List<UserResponseData> list = searchService.searchKeyword(keyword);
-//		logger.debug("searchHandle's result : {} ", keyword);
-//		model.addAttribute("list", list);
-//		model.addAttribute("keyword", keyword);
-//		
-//		
-//		}
-//		return "search";
-//	}
-	
-
 
 	@GetMapping("/search")
 	public String ShowSearchHandle(@RequestParam(required = false)String keyword, @RequestParam(defaultValue = "1")int page, @SessionAttribute(required = false) String logonId ,Model model) {

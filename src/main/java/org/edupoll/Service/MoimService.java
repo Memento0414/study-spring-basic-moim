@@ -20,9 +20,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Service
 public class MoimService {
@@ -101,36 +98,33 @@ public class MoimService {
 		return pagenation;
 	}
 	
-	//모임 삭제
 	public boolean deleteMoim(String moimId) {
-		
-		Optional<Moim> optionMoim = moimRepository.findById(moimId);
-		
-		if(optionMoim.isEmpty()) {
-			
+
+		Optional<Moim> moimOption = moimRepository.findById(moimId);
+
+		if (moimOption.isEmpty()) {
 			return false;
+
 		}
-		
-		Moim moim = optionMoim.get();
-		
-		List<Reply> replys = moim.getReplys();
+		Moim moim = moimOption.get();
+
+		List<Reply> reply = moim.getReplys();
 		List<Attendance> attend = moim.getAttendance();
 		
-		for(Reply r : replys) {
-			
-			replyRepository.deleteById(r.getId());
-		}
-		
-		for(Attendance a : attend) {
-			
-			attendanceRepository.deleteById(a.getId());
-		}
-	
-		moimRepository.delete(moim);
-		
-		return true;
-		
-	}
+		//리플 찾아서 삭제
+		for (Reply found : reply) {
 
+			replyRepository.deleteById(found.getId());
+		}
+		//모임에 참가자들 삭제
+		for (Attendance findAttend : attend) {
+
+			attendanceRepository.deleteById(findAttend.getId());
+		}
+		//모임 삭제
+		moimRepository.delete(moim);
+		return true;
+
+	}
 
 }
