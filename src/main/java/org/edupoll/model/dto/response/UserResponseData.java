@@ -12,6 +12,7 @@ public class UserResponseData {
 	String joinTime;
 	String avatarUrl;
 	String description;
+	boolean followed;
 	
 	
 	public UserResponseData() {
@@ -36,6 +37,17 @@ public class UserResponseData {
 				
 			}
 		}
+	
+	}
+
+
+	public boolean isFollowed() {
+		return followed;
+	}
+
+
+	public void setFollowed(boolean followed) {
+		this.followed = followed;
 	}
 
 

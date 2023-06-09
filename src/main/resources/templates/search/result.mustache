@@ -20,7 +20,7 @@
 
 		<h6 class="border-bottom pb-2">#사용자들</h6>
 		{{#findUser}}
-		<div class="d-flex text-body-seconadry pt-1 align-items-center">
+		  <div class="d-flex text-body-seconadry pt-1 align-items-center">
 			{{#avatarUrl}}
 				<img src="{{.}}" style="width: 48px" class="me-2" />
 			{{/avatarUrl}}
@@ -31,17 +31,17 @@
 				<b class="text-gary-dark fs-6">@{{id}}</b> 
 				<small>{{nick}}</small> - since {{joinDay }} ({{joinTime}})
 			</div>	
-		<div>
+		  <div>
 		
-		</div>
-		{{^result}}
-			<span class="mx-2 btn"><i class="follow bi bi-heart text-danger" data-user-id="{{id}}" data-status="add-follow"></i></span>
-		{{/result}}
-		{{#result}}
-			<span class="mx-2 btn"><i class="follow bi bi-heart text-danger" data-user-id="{{id}}" data-status="cancel-follow"></i></span>
-		{{/result}}
+		 </div>
+			{{#followed}}
+				<span class="mx-2 btn"><i class="follow bi bi-heart text-danger" data-user-id="{{id}}" data-status="follow"></i></span>
+			{{/followed}}
+			{{^followed}}
+				<span class="mx-2 btn"><i class="follow bi bi-heart text-danger" data-user-id="{{id}}" data-status="cancel-follow"></i></span>
+			{{/followed}}
 			
-	</div>
+	     </div>
 		{{/findUser}}
 		{{^findUser}}
 			<span style="color: blue; text-align: center; margin: 16px;">검색하신 아이디 혹은 넥네임이 존재하지 않습니다. 다시 검색해주세요.</span>
@@ -63,50 +63,36 @@
 	document.querySelectorAll(".follow").forEach(elm => {
 		elm.onclick=(evt) => {
 			
-			const status = document.querySelectorAll(".follow").dataset.status;
 			
-			if(status === "cancel-follow"){
+			
+			if(elm.dataset.status === "cancel-follow"){
 				const xhr = new XMLHttpRequest();
 				xhr.open("post", "/api/follow", false);
 				//포스트는 body가 있는 요청, body에 담긴 내용의 종류를 설정해야 된다.
 				xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
 				xhr.send("target=" + evt.target.dataset.userId); //post는 send안에 body 설정을 해야한다.
-			      
 				const response = JSON.parse(xhr.responseText);
+				console.log("resp =", response);
+			      console.log("response = ", response);
 			
 					if(response.result){
-						document.querySelectorAll(".follow").dataset.status="add-follow";
 						evt.target.classList.remove("bi-heart");
 						evt.target.classList.add("bi-heart-fill");
-					} else{
-						window.alert("님은 이미 팔로우 중입니다.");
-					}	
+						evt.target.dataset.status="follow";
+					}
 					
 			}else{
 				const xhr = new XMLHttpRequest();
 				xhr.open("delete", "/api/follow?target="+evt.target.dataset.userId, false);
-				xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
 				xhr.send();
 				const response = JSON.parse(xhr.responseText);
 				if(response.result){
-					document.querySelectorAll(".follow").dataset.status="cancel-follow";
 					evt.target.classList.remove("bi-heart-fill");
 					evt.target.classList.add("bi-heart");
-				} else{
-					window.alert("잘못된 방식이나 오류로 인해 삭제에 실패하였습니다.");
-					
-				}	
-				
+					evt.target.dataset.status="cancel-follow";
+				} 	
 			}	
-				
-					
-			/*
-				
-				document.querySelectorAll(".follow").dataset.status="cancel-follow";
-				evt.target.classList.remove("bi-heart-fill");
-				evt.target.classList.add("bi-heart");
-			}
-			*/
+		
 		};
 		
 			

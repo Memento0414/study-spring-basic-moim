@@ -8,6 +8,7 @@ import org.edupoll.repository.FollowRepository;
 import org.edupoll.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FollowService {
@@ -34,9 +35,12 @@ public class FollowService {
 		}
 	}
 	
-	public void cancelFollow(String ownerId, String userId) {
+	@Transactional
+	public FollowResponseData cancelFollow(String ownerId, String userId) {
 		
 		 followRepository.deleteByOwnerIdIsAndTargetIdIs(ownerId, userId);
+		 
+		 return new FollowResponseData(true);
 		
 		
 	}
