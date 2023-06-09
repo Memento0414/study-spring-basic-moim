@@ -92,12 +92,13 @@ public class UserService {
 		return true;
 
 	}
-
+	
 	public UserDetail findSpecifiSavedDetail(String logonId) {
 
 		return userRepository.findById(logonId).get().getUserDetail();
 	}
-
+	
+	//회원탈퇴 == 얽힌 객체들이 많아서 처리하기 힘듦.
 	@Transactional
 	public boolean removeToUser(String logonId) {
 

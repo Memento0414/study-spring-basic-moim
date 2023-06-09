@@ -7,7 +7,9 @@ import org.edupoll.Service.MoimService;
 import org.edupoll.Service.ReplyService;
 import org.edupoll.model.dto.response.Pagination;
 import org.edupoll.model.entity.Moim;
+
 import org.edupoll.security.support.Account;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +77,9 @@ public class MoimController {
 		
 		if(account.getUsername() != null) {
 		model.addAttribute("isJoined", attendanceService.CheckJoinedAttend(account.getUsername(), id));
+
 		}
+
 		
 		List<String> pages = replyService.replyPagging(page, id);
 		model.addAttribute("replyPage", pages);
