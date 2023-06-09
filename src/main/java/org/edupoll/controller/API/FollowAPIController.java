@@ -26,9 +26,9 @@ public class FollowAPIController {
 	}
 	
 	@DeleteMapping
-	public void cancelFollowHandle(@SessionAttribute(name="logonId") String ownerId, @RequestParam String target) {
+	public FollowResponseData cancelFollowHandle(@SessionAttribute(name="logonId") String ownerId, @RequestParam String target) {
 	
-		followService.cancelFollow(ownerId, target);
+		return followService.cancelFollow(ownerId, target);
 	}
 	
 }

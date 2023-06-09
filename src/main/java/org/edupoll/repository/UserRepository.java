@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, String>{
 
 	long countByIdContainingOrNickContainingAllIgnoreCase(String id, String nick);
 	
-	List<User> findByIdContainingOrNickContainingAllIgnoreCase(String id, String nick, PageRequest pageReq);
+	List<User> findByIdContainingOrNickContainingAllIgnoreCase(String id, String nick, PageRequest pageRequest);
 
 	
 
