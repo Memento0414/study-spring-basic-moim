@@ -3,6 +3,7 @@ package org.edupoll.Service;
 import java.util.Optional;
 
 import org.edupoll.model.dto.request.LoginRequestData;
+import org.edupoll.model.dto.request.UserJoinData;
 import org.edupoll.model.entity.Moim;
 import org.edupoll.model.entity.Reply;
 import org.edupoll.model.entity.User;
@@ -13,6 +14,8 @@ import org.edupoll.repository.ReplyRepository;
 import org.edupoll.repository.UserDetailRepository;
 import org.edupoll.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,10 +39,19 @@ public class UserService {
 	
 
 	// 회원 가입을 처리할 서비스 메서드
-	public boolean create(User user) {
+	public boolean create(UserJoinData joinData) {
 
-		if (userRepository.findById(user.getId()).isEmpty()) {
-
+		if (userRepository.findById(joinData.getId()).isEmpty()) {
+			PasswordEncoder passEncoder = new BCryptPasswordEncoder();
+			User user = new User();
+			
+			user.setId(joinData.getId());
+			user.setPass("{bcrypt}"+ passEncoder.encode(joinData.getPass()));
+			user.setNick(joinData.getNick());
+			user.setAuthority("ROLE_VIP");	
+			
+			System.out.println("User Join = " + joinData.getId() + " / " + joinData.getPass() + "/" + joinData.getNick() + " / " + user.getAuthority());
+			
 			userRepository.save(user);
 			return true;
 		} else {
@@ -82,12 +94,6 @@ public class UserService {
 	}
 
 	public UserDetail findSpecifiSavedDetail(String logonId) {
-
-//		UserDetail userDetail = userRepository.findById(logonId).get().getUserDetail().getIdx();
-//		if(userDtail==null){
-//			return null;
-//		}
-//		return userDetailRepository.findById(userDetail.getIdx()).orElse(null);
 
 		return userRepository.findById(logonId).get().getUserDetail();
 	}

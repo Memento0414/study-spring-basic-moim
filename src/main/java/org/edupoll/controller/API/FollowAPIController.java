@@ -2,7 +2,9 @@ package org.edupoll.controller.API;
 
 import org.edupoll.Service.FollowService;
 import org.edupoll.model.dto.response.FollowResponseData;
+import org.edupoll.security.support.Account;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,17 +20,17 @@ public class FollowAPIController {
 	FollowService followService;
 	
 	@PostMapping
-	public FollowResponseData addFollowHandle(@SessionAttribute(name="logonId") String ownerId, @RequestParam String target) {
+	public FollowResponseData addFollowHandle(@AuthenticationPrincipal Account account, @RequestParam String target) {
 		
 		
-		return followService.following(ownerId, target);
+		return followService.following(account.getUsername(), target);
 		
 	}
 	
 	@DeleteMapping
-	public FollowResponseData cancelFollowHandle(@SessionAttribute(name="logonId") String ownerId, @RequestParam String target) {
+	public FollowResponseData cancelFollowHandle(@AuthenticationPrincipal Account account, @RequestParam String target) {
 	
-		return followService.cancelFollow(ownerId, target);
+		return followService.cancelFollow(account.getUsername(), target);
 	}
 	
 }

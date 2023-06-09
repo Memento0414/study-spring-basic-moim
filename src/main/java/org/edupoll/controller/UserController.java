@@ -2,6 +2,7 @@ package org.edupoll.controller;
 
 import org.edupoll.Service.UserService;
 import org.edupoll.model.dto.request.LoginRequestData;
+import org.edupoll.model.dto.request.UserJoinData;
 import org.edupoll.model.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +32,8 @@ public class UserController {
 	}
 	
 	@PostMapping("/user/join")
-	public String userJoinHandle(@Valid User user, BindingResult result, Model model) {
-		boolean rst = userService.create(user);
+	public String userJoinHandle(@Valid UserJoinData joinData, BindingResult result, Model model) {
+		boolean rst = userService.create(joinData);
 		logger.debug("userJoinHandle's result : {} ", rst);
 		
 		if(result.hasErrors()) {
@@ -56,7 +57,7 @@ public class UserController {
 		
 		return "user/login";
 	}
-	
+	/*
 	@PostMapping("/user/login")
 	public String userLoginHandle(LoginRequestData data, HttpSession session ,Model model) {
 		
@@ -85,7 +86,7 @@ public class UserController {
 	
 		return "index";
 	}
-
+	*/
 	@GetMapping("/user/delete")
 	public String userDeleteHandle(@SessionAttribute String logonId, HttpSession session) {
 

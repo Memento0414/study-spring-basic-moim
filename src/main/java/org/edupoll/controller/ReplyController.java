@@ -37,7 +37,7 @@ public class ReplyController {
 		
 	}
 	
-	@GetMapping("/moim/reply -delete")
+	@GetMapping("/moim/reply-delete")
 	public String deleteReply(Reply reply, String password, Model model) {
 
 		boolean rst = replyService.deleteReply(reply, password);
