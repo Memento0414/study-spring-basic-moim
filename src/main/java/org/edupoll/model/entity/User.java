@@ -30,13 +30,13 @@ public class User {
 	
 	@NotNull
 	@NotBlank
-	@Size(min=4, max=12)
 	String pass;
 	
 	@NotNull
 	@NotBlank
 	String nick;
 	Date joinDate;
+	String authority;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="userDetailIdx") //User Entity의 필드
@@ -154,6 +154,14 @@ public class User {
 	public void doPrePersist() {
 		System.out.println("doPrePersist..");
 		joinDate = new Date();
+	}
+
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 
 	

@@ -19,8 +19,7 @@ public class ReplyController {
 	
 	@Autowired
 	 MoimService moimService;
-	
-	
+
 	//댓글 등록
 	@PostMapping("/moim/reply-task")
 	public String AddReply(Reply reply, String moimId, Model model) {
@@ -36,8 +35,9 @@ public class ReplyController {
 		}
 		
 	}
+	
+	@GetMapping("/moim/reply-delete")
 
-	@GetMapping("/moim/reply -delete")
 	public String deleteReply(Reply reply, String password, Model model) {
 
 		boolean rst = replyService.deleteReply(reply, password);

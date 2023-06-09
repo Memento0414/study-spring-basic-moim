@@ -2,9 +2,11 @@ package org.edupoll.controller;
 
 import org.edupoll.Service.UserService;
 import org.edupoll.model.entity.UserDetail;
+import org.edupoll.security.support.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +24,8 @@ public class PrivateController {
 	UserService userService;
 	
 	@GetMapping("/private/modify")
-	public String showPrivateModifyForm(@SessionAttribute String logonId, Model model) {
-		UserDetail savedDetail = userService.findSpecifiSavedDetail(logonId);
+	public String showPrivateModifyForm(@AuthenticationPrincipal Account account, Model model) {
+		UserDetail savedDetail = userService.findSpecifiSavedDetail(account.getUsername());
 		
 		logger.debug("showPrivateModifyForm's result : {} ", savedDetail);
 		
@@ -35,10 +37,10 @@ public class PrivateController {
 	
 	
 	@PostMapping("/private/modify")
-	public String privateModifyHandle(@SessionAttribute String logonId, UserDetail detail, Model model) {
+	public String privateModifyHandle(@AuthenticationPrincipal Account account, UserDetail detail, Model model) {
 		
-		System.out.println("logonId" + logonId);
-		boolean rst =userService.modifySpecifiUserDetail(logonId, detail);
+		System.out.println("logonId" + account.getUsername());
+		boolean rst =userService.modifySpecifiUserDetail(account.getUsername(), detail);
 		
 		logger.debug("privateModifyHandle's result : {} ", rst);
 		
@@ -47,9 +49,9 @@ public class PrivateController {
 	
 	//프로필 뷰에 보이는 정보 처리 
 	@GetMapping("/private")
-	public String showPrivateInfoView(@SessionAttribute String logonId, Model model) {
+	public String showPrivateInfoView(@AuthenticationPrincipal Account account, Model model) {
 		
-		 model.addAttribute("user", userService.findSpecifiUserById(logonId));
+		 model.addAttribute("user", userService.findSpecifiUserById(account.getUsername()));
 		 return "private/default";
 	}
 }
