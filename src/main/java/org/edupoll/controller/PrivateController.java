@@ -39,7 +39,6 @@ public class PrivateController {
 	@PostMapping("/private/modify")
 	public String privateModifyHandle(@AuthenticationPrincipal Account account, UserDetail detail, Model model) {
 		
-		System.out.println("logonId" + account.getUsername());
 		boolean rst =userService.modifySpecifiUserDetail(account.getUsername(), detail);
 		
 		logger.debug("privateModifyHandle's result : {} ", rst);

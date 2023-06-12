@@ -39,7 +39,7 @@ public class MoimService {
 	@Value("${config.moim.pageSize}")
 	int pageSize;
 	
-	//모임 생성
+	/**모임등록하고자 할때 사용하는 메서드 */
 	public String createMoim(Moim moim, String logonId) {
 		User found= userRepository.findById(logonId).get();// 로그온 상태라면 무조건 있는 데이터
 			/*
@@ -54,14 +54,13 @@ public class MoimService {
 			return saved.getId();
 	}
 	
-	//특정 Id의 모임정보 불러오기용 서비스 메서드
+	/**특정 Id의 모임정보 불러오기용 서비스 메서드*/
 	public Moim findMoim(String logonId){
 
 		return  moimRepository.findById(logonId).orElse(null);
 	}
 	
 	//모임 전체글 페이징처리
-	
 	
 	public List<Moim> findAllMoim(int page){
 		PageRequest pageRequest = PageRequest.of(page-1, pageSize, Sort.by(Direction.ASC, "targetDate"));
@@ -98,6 +97,8 @@ public class MoimService {
 		return pagenation;
 	}
 	
+
+	/**본인이 쓴 모임을 삭제하고 할 때 사용하는 메서드*/
 	public boolean deleteMoim(String moimId) {
 
 		Optional<Moim> moimOption = moimRepository.findById(moimId);

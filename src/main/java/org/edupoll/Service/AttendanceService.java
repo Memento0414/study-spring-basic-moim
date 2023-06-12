@@ -27,6 +27,7 @@ public class AttendanceService {
 	MoimRepository moimRepository;
 
 	
+	/**모임 참가 신청을 하는 메서드*/
 	@Transactional
 	public AttendanceJoinResponseData addNewMoimAttendance(String userId, String moimId) {
 		
@@ -50,13 +51,13 @@ public class AttendanceService {
 			ajrd.setErrorMessage("최대 참가 인원 수를 초과하였습니다.");
 			return ajrd;
 		}
-//		if(moim.get().getManager().getId() == user.get().getId()) {
-//			
-//			ajrd.setResult(false);
-//			ajrd.setErrorMessage("모임주최자는 모임에 참가 할 수 없습니다.");
-//			return ajrd;
-//			
-//		}
+		if(moim.get().getManager().getId().equals(user.get().getId())) {
+			
+			ajrd.setResult(false);
+			ajrd.setErrorMessage("모임주최자는 모임에 참가 할 수 없습니다.");
+			return ajrd;
+			
+		}
 		
 		Attendance one = new Attendance(user.get(), moim.get());
 		attendanceRepository.save(one);
@@ -105,6 +106,7 @@ public class AttendanceService {
 	*/
 	
 	
+	
 	@Transactional
 	public AttendanceJoinResponseData cancelAttendance(String userId, String moimId) {
 		
@@ -129,7 +131,7 @@ public class AttendanceService {
 	
 	
 	
-	//특정 유저가 특정모임에 참여중인 확인하고자 할때 사용할 메서드
+	/**특정 유저가 특정모임에 참여중인 확인하고자 할때 사용할 메서드*/
 
 	public boolean CheckJoinedAttend(String userId, String moimId) {
 		

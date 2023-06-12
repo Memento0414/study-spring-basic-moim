@@ -14,16 +14,15 @@ public class SecurityConfig {
 
 		http.csrf(t-> t.disable());
 		http.authorizeHttpRequests(t -> t
-									.requestMatchers("/","/user/**", "/moim/list").permitAll()
-									.requestMatchers("/status").permitAll()
+									.requestMatchers("/","/user/**", "/moim/list", "/search/**").permitAll()
 									.anyRequest().authenticated()	
 				);
 
 		http.formLogin(t ->t.usernameParameter("loginId")
 							.passwordParameter("loginPass")
 							.loginPage("/user/login"));
-						
-	 
+					
+		
 	 return http.build();
  }
 	

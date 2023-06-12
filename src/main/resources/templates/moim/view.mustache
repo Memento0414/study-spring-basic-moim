@@ -15,13 +15,12 @@
 				</span>
 				</div>
 		</div>
-
+	
 		<h1 class="fw-bold">
 			{{title}} <small class="fs-6 text-secondary">{{cate}}</small>
 		</h1>
 		<p class="fs-4">{{description }}</p>
-		<p class="text-end text-black-80 fs-smaller">모임 예정일 : {{targetDate
-			}} ({{duration}}h)</p>
+		<p class="text-end text-black-80 fs-smaller">모임 예정일 : {{targetDate}} ({{duration}}h)</p>
 	</div>
 	{{#isLogon}} 
 		{{#isJoined}}
@@ -34,6 +33,7 @@
 	{{^isLogon}}
 			<button id="join-btn disable" class="btn btn-primary btn-sm" style="margin: 8px" data-status="not-joined" data-target="{{moim.id}}">참가신청하기</button>
 	{{/isLogon}}
+			
 </div>
 {{/moim }}
 <!-- 참가자 목록 뷰 -->
@@ -104,6 +104,10 @@
 document.querySelector("#join-btn").onclick = (evt)=> {
 	
 	const status = document.querySelector("#join-btn").dataset.status;
+	
+	
+	
+	
 	
 	if(status ==="not-joined"){
 		SendAddAttendanceReq();
