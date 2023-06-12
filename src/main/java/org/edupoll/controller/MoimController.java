@@ -69,6 +69,7 @@ public class MoimController {
 		
 		logger.debug("showMoimDetail's reusult = {}", id);
 		
+		
 		model.addAttribute("moim", moimService.findMoim(id));
 		
 		model.addAttribute("isLogon" , account.getUsername() != null);
@@ -77,6 +78,7 @@ public class MoimController {
 		model.addAttribute("isJoined", attendanceService.CheckJoinedAttend(account.getUsername(), id));
 		}
 		
+		//페이징 처리
 		List<String> pages = replyService.replyPagging(page, id);
 		model.addAttribute("replyPage", pages);
 		

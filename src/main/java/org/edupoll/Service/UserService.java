@@ -49,9 +49,7 @@ public class UserService {
 			user.setPass("{bcrypt}"+ passEncoder.encode(joinData.getPass()));
 			user.setNick(joinData.getNick());
 			user.setAuthority("ROLE_VIP");	
-			
-			System.out.println("User Join = " + joinData.getId() + " / " + joinData.getPass() + "/" + joinData.getNick() + " / " + user.getAuthority());
-			
+
 			userRepository.save(user);
 			return true;
 		} else {

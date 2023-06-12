@@ -1,19 +1,17 @@
 package org.edupoll.controller;
 
 import org.edupoll.Service.UserService;
-import org.edupoll.model.dto.request.LoginRequestData;
 import org.edupoll.model.dto.request.UserJoinData;
-import org.edupoll.model.entity.User;
+import org.edupoll.security.support.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -88,9 +86,9 @@ public class UserController {
 	}
 	*/
 	@GetMapping("/user/delete")
-	public String userDeleteHandle(@SessionAttribute String logonId, HttpSession session) {
+	public String userDeleteHandle(@AuthenticationPrincipal Account account, HttpSession session) {
 
-		boolean rst = userService.removeToUser(logonId);
+		boolean rst = userService.removeToUser(account.getUsername());
 		logger.debug("userDeleteHandle's result : {} ", rst);
 		if (rst) {
 			session.invalidate();
