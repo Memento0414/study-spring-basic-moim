@@ -34,13 +34,13 @@ public class SearchController {
 				List<UserResponseData> findUser = searchService.findAllUser(keyword, page);
 				model.addAttribute("findUser", findUser);
 				
-				List<String> pages = searchService.findAllUserPageCount(page, keyword);
+				List<String> pages = searchService.findByUserPageCount(page, keyword);
 				model.addAttribute("pages", pages);
 				
 			} else { 
 				model.addAttribute("findUser", searchService.getUserMatchedKeywordBySpecificUser(keyword, account.getUsername(), page));
 				
-				List<String> pages = searchService.findAllUserPageCount(page, keyword);
+				List<String> pages = searchService.findByUserPageCount(page, keyword);
 				model.addAttribute("pages", pages);
 			}
 

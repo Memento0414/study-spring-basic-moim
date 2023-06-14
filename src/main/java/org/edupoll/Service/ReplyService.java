@@ -59,6 +59,11 @@ public class ReplyService {
 		}
 		return pages;
 	}
+
+	public boolean deleteReply(Reply reply) {
+	
+		return false;
+	}
 	
 	
 	

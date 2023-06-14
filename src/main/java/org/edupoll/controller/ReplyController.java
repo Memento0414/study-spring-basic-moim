@@ -40,7 +40,7 @@ public class ReplyController {
 
 	public String deleteReply(Reply reply, String password, Model model) {
 
-		boolean rst = replyService.deleteReply(reply, password);
+		boolean rst = replyService.deleteReply(reply);
 		logger.debug("deleteReply's result = {} ", rst);
 		if (rst) {
 			return "redirect:/moim/view";
