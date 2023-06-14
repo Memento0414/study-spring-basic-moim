@@ -54,7 +54,7 @@ public class SearchService {
 		
 
 		long totalData = userRepository.countByIdContainingOrNickContainingAllIgnoreCase(keyword, keyword);
-
+		System.out.println(totalData);
 		
 		List<String> pages = new ArrayList<>();
 		
