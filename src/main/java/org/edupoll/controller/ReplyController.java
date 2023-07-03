@@ -1,8 +1,8 @@
 package org.edupoll.controller;
 
-import org.edupoll.Service.MoimService;
-import org.edupoll.Service.ReplyService;
 import org.edupoll.model.entity.Reply;
+import org.edupoll.service.MoimService;
+import org.edupoll.service.ReplyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package org.edupoll.Service;
+package org.edupoll.service;
 
 import java.util.List;
 import java.util.Optional;

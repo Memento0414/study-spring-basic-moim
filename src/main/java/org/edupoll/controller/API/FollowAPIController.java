@@ -1,8 +1,8 @@
 package org.edupoll.controller.API;
 
-import org.edupoll.Service.FollowService;
 import org.edupoll.model.dto.response.FollowResponseData;
 import org.edupoll.security.support.Account;
+import org.edupoll.service.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
