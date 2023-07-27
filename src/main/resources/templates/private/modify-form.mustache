@@ -1,43 +1,42 @@
 {{> /common/header}}
-{{> /common/navi-bar}}
+
 <div class="container">
 	<div>
 		<h2>#개인정보 수정</h2>
-		<hr/>
+	
 	</div>
 	<form method="post" action="/private/modify" class="form-control">
 		<div class="mb-1 text-center">
 			{{#savedDetail.avatar }}
-			<img src="{{url}}" style="max-width: 50%"
+			<img src="{{url}}" style="max-width: 25%"
 				class="rounded img-thumbnail" alt="...">
 			{{/savedDetail.avatar }}
 			{{^savedDetail.avatar }}
-			<img src="" style="max-width: 50%"
+			<img src="" style="max-width: 25%"
 				class="rounded img-thumbnail" alt="...">
 			{{/savedDetail.avatar }} 
 		</div>
 		
 		 <div class="input-group mb-3">
-		 	<span class="input-group-text" id="inputGroup-sizing-default">아바타 아이디</span>
-			 <input type="text" name="avatar.Id" placeholder="아바타 아이디" value="{{#savedDetail.avatar.id}} {{.}} {{/savedDetail.avatar.id}}" 
+		 	<span class="input-group-text" id="inputGroup-sizing-default">아바타 이미지</span>
+			 <input type="text" name="avatar.Id" id="{{#savedDetail.avatar.id}} {{.}} {{/savedDetail.avatar.id}}" value="{{#savedDetail.avatar.id}} {{.}} {{/savedDetail.avatar.id}}" 
 			 		class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">		
 		 </div>
-		 <div class="form-floating">
-			<textarea name="description" class="form-control" id="floatingTextarea2" style="height: 100px;"placeholder="자기소개">
-					  {{#savedDetail.description}} {{.}} {{/savedDetail.description}}</textarea>
-			<label for="floatingTextarea2">자기소개</label>
+		 <div class="form-floating" style="padding: 8px;">
+			<textarea name="description" class="form-control" id="floatingTextarea2" style="height: 100px;">{{#savedDetail.description}}{{.}}{{/savedDetail.description}}</textarea>
 		 </div>
-		 <div class="form-floating"> 
+		 <div class="form-floating" style="padding: 8px;"> 
 			<input type="text" name="address" value="{{#savedDetail.address}} {{.}} {{/savedDetail.address}}" class="form-control" id="floatingInput" placeholder="주소">
 			<label for="floatingInput">주소</label>
 		</div>
-		<div>
-			<input type="date" name="birthday"/>
+		<div style="padding: 8px;">
+			<input type="date" name="birthday" value="{{#savedDetail.birthday}}{{.}}{{/savedDetail.birthday}}"/>
 		</div>
-		<div>
+		<div style="padding: 8px;  display: flex; justify-content: space-around;">
 			<button type="submit" class="btn btn-outline-primary">개인정보 수정</button>
 			<button type="button" class="btn btn-danger" id="del-bt">회원탈퇴</button>
-			<a href="/pravite/default">뒤로가기</a>
+			<a href="/pravite/default"><button type="button" class="btn btn-danger" id="del-bt">뒤로가기</button></a>
+		
 		</div>
 	</form>
 </div>

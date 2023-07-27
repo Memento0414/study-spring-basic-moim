@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.edupoll.model.dto.response.Pagination;
 import org.edupoll.model.entity.Moim;
-
 import org.edupoll.security.support.Account;
 import org.edupoll.service.AttendanceService;
 import org.edupoll.service.MoimService;
@@ -18,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Controller
 public class MoimController {
