@@ -1,38 +1,35 @@
-#Logging level config
+# Logging Level Configuration
 logging :
-  level:
-   org:
-    edupoll: debug
+  level :
+    org :
+      edupoll : debug
+  
+# Spring Configuration  
+
+spring :
+ profiles :
+   active : mysql
    
- #Spring config  
-spring:
  mustache:
    servlet:
      expose-session-attributes: true
      
- jackson:
-   default-property-inclusion: NON_NULL    
-     
- datasource :
-      driver-class-name : oracle.jdbc.driver.OracleDriver
-      url : jdbc:oracle:thin:@3.34.136.30:1521:xe   
-      username : moim
-      password : 1q2w3e4r
+ jackson :
+    default-property-inclusion : NON_NULL
+    
  mvc :
-   format : 
-     date : yyy-MM-dd
- jpa :
-  show-sql: true    
-      
-      
-      
-      
-
-server :
+  format :
+    date : yyyy-MM-dd
+    
+          
+server : 
+  port : 8280
   servlet :
     encoding :
-      force : true     
-      
+      force : true
+    
 config :
   moim :
-   pageSize : 8   
+   pageSize : 8  
+    
+   

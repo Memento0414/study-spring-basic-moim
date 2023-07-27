@@ -1,25 +1,25 @@
-<nav class="navbar" style="background-color: #e3f2fd;">
-<a href="/"><h2>M.o.i.m.</h2></a>
-  <!-- Navbar content -->
-     {{#SPRING_SECURITY_CONTEXT}}
-  <div class="btn-group">
-  
-  <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-
-    <span class="visually-hidden"></span>{{SPRING_SECURITY_CONTEXT.Authentication.Principal.username}}
-
-  </button>
-		<ul class="dropdown-menu">
+{{#SPRING_SECURITY_CONTEXT}}
+<ul class="nav justify-content-end my-2 nav-pills">
+	{{!
+	<li class="nav-item ">
+	<a class="nav-link" aria-current="page"href="/moims">모임들</a></li> 
+	}}
+	
+	<li class="nav-item dropdown ">
+	<a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">@{{SPRING_SECURITY_CONTEXT.Authentication.Principal.username}} </a>
+		<ul class="dropdown-menu" style="font-size: 0.8em">
 			<li><a class="dropdown-item" href="/private">프로필</a></li>
-			<li><a class="dropdown-item" href="/logout">로그아웃</a></li>
 			<li><a class="dropdown-item" href="/moim/list">모임들</a></li>
+			<li><hr class="dropdown-divider"></li>
+			<li><a class="dropdown-item" href="/logout">로그아웃</a></li>
 		</ul>
-		{{/SPRING_SECURITY_CONTEXT}}
-  	{{^SPRING_SECURITY_CONTEXT}}
-		<div>
-			<a href="/user/join"><button type="submit" class="btn btn-outline-primary">회원가입</button></a> 
-			<a href="/user/login"><button type="submit" class="btn btn-outline-primary">로그인</button></a>
-		</div>
-	</div>
-	{{/SPRING_SECURITY_CONTEXT}}
-  </nav>
+	</li>
+</ul>
+{{/SPRING_SECURITY_CONTEXT}} 
+{{^SPRING_SECURITY_CONTEXT}}
+<ul class="nav justify-content-end my-2">
+	<li class="nav-item"><a class="nav-link" aria-current="page" href="/user/login">로그인</a></li>
+	<li class="nav-item"><a class="nav-link" href="/user/join">회원가입</a></li>
+</ul>
+{{/SPRING_SECURITY_CONTEXT}}
+  

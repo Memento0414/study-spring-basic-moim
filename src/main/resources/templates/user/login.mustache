@@ -1,13 +1,24 @@
 {{> /common/header}}
-	<form action="/user/login" method="post">
+	
+	<div style="display: flex; height: 350px; flex-direction: column-reverse; align-items: center;">
+	<form class="my-2" action="/user/login" method="post" style="border: 2px rgba(13,110,253,.25) solid; border-radius: 8px; padding: 48px;">
 		{{#error}}
-			<div class="alert alert-danger" role="alert">
+		<div class="alert alert-danger alert-dismissible" role="alert">
 				로그인에 실패하였습니다.(아이디 혹은 비밀번호가 일치하지 않습니다.)
-				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-		{{/error}}
-		<input type="text" name="loginId" placeholder="아아디" required="required"/>
-		<input type="password" name="loginPass" placeholder="비밀번호" required="required"/>
-		<button type="submit" class="btn btn-outline-primary">로그인</button>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		{{/error}} 
+		<div class="mb-1">
+			<input type="text" name="loginId" placeholder="아아디" required="required" style="width: 300px"/> 
+		</div>
+		<div class="mb-3">
+			<input type="password" name="loginPass" placeholder="비밀번호" required="required" style="width: 300px"/>
+		</div>
+		<div style="display: flex; flex-direction: row-reverse;">
+			<button type="submit" class="btn btn-outline-primary">로그인</button>
+		</div>
 	</form>
+	</div>
+
+
 {{> /common/footer}}

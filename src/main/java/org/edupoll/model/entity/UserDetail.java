@@ -13,10 +13,10 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="user_details")
+@Table(name="userDetails")
 public class UserDetail {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer idx;
 	
 	String address;
