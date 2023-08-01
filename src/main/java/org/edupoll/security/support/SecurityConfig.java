@@ -20,7 +20,7 @@ public class SecurityConfig {
 
 		http.formLogin(t ->t.usernameParameter("loginId")
 							.passwordParameter("loginPass")
-							.loginPage("/user/login"));
+							.loginPage("/user/login").permitAll());
 					
 		
 	 return http.build();
