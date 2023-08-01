@@ -55,36 +55,7 @@ public class UserController {
 		
 		return "user/login";
 	}
-	/*
-	@PostMapping("/user/login")
-	public String userLoginHandle(LoginRequestData data, HttpSession session ,Model model) {
-		
-		boolean result = userService.isValidUser(data);
-		logger.debug("UserLoginHandle's result : {} ", result);
-		
-		
-		if(result) {
-			
-			session.setAttribute("logonId", data.getLoginId());
-			return "index";
-			
-		} else {
-			
-			model.addAttribute("error", true);
-			return "user/login";
-		}
-		
-	}
 	
-	
-	@GetMapping("/user/logout")
-	public String userLogoutHandle(HttpSession session) {
-		
-		session.invalidate();
-	
-		return "index";
-	}
-	*/
 	@GetMapping("/user/delete")
 	public String userDeleteHandle(@AuthenticationPrincipal Account account, HttpSession session) {
 
