@@ -67,10 +67,6 @@ public class AttendanceService {
 		ajrd.setResult(true);
 		ajrd.setCurrentPerson(moim.get().getCurrentPerson());
 		
-//		List<String> list = new ArrayList<>();
-//		for(Attendance a : attendanceRepository.findByMoimIdIs(moimId)) {
-//			list.add(a.getUser().getId());
-//		}
 		
 		List<String> alist = attendanceRepository.findByMoimIdIs(moimId).stream().map(t->t.getUser().getId()).toList();
 		
@@ -78,34 +74,7 @@ public class AttendanceService {
 		
 		return ajrd;
 	}
-	/*
-	public AttendanceJoinResponseData deleteAttend(String userId, String moimId) {
-		
-		AttendanceJoinResponseData ajrd = new AttendanceJoinResponseData();
-		
-		Attendance one = attendanceRepository.findByUserIdIsAndMoimIdIs(userId, moimId);
-		
-		Optional<Moim> moim = moimRepository.findById(moimId);
-		
-		for(Attendance attend : attendanceRepository.findByMoimIdIs(moimId)) {
-			if(attend.getUser().getId().equals(userId)) {
-				ajrd.setResult(true);
-				ajrd.setCurrentPerson(attend.getMoim().getCurrentPerson()-1);
-				moimRepository.save(attend.getMoim());
-				
-				attendanceRepository.delete(attend);
-				ajrd.setCurrentPerson(attend.getMoim().getCurrentPerson());
-				
-			}
-		}
-		List<String> alist = attendanceRepository.findByMoimIdIs(moimId).stream().map(t->t.getUser().getId()).toList();
-		ajrd.setAttendUserIds(alist);
-		return ajrd;
-	}
-	
-	*/
-	
-	
+
 	
 	@Transactional
 	public AttendanceJoinResponseData cancelAttendance(String userId, String moimId) {
@@ -126,9 +95,6 @@ public class AttendanceService {
 		
 		
 	}
-	
-	
-	
 	
 	
 	/**특정 유저가 특정모임에 참여중인 확인하고자 할때 사용할 메서드*/
