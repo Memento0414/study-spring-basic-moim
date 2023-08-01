@@ -42,11 +42,7 @@ public class MoimService {
 	/**모임등록하고자 할때 사용하는 메서드 */
 	public String createMoim(Moim moim, String logonId) {
 		User found= userRepository.findById(logonId).get();// 로그온 상태라면 무조건 있는 데이터
-			/*
-			 * User user = new User();
-			 * user.setId(logonId);
-			 * user.setManager(user);
-			 * */
+		
 			moim.setCurrentPerson(1);
 			moim.setManager(found);
 			Moim saved = moimRepository.save(moim);

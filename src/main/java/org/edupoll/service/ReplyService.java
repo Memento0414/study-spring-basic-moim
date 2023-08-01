@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.edupoll.model.entity.Moim;
 import org.edupoll.model.entity.Reply;
+import org.edupoll.model.entity.User;
 import org.edupoll.repository.MoimRepository;
 import org.edupoll.repository.ReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,7 @@ public class ReplyService {
 
 	public boolean deleteReply(Reply reply) {
 	
+		
 		return false;
 	}
 	

@@ -35,6 +35,7 @@ public class FollowService {
 		}
 	}
 	
+	//팔로우 취소를 처리하는 메서드
 	@Transactional
 	public FollowResponseData cancelFollow(String ownerId, String userId) {
 		
